@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { 
   Layout, 
-  Menu, 
   Button, 
-  Dropdown, 
-  Space, 
   Drawer,
   Typography
 } from 'antd';
 import { 
   MenuOutlined, 
-  DownOutlined, 
-  GlobalOutlined,
   UserOutlined 
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import '../../css/Header.css';
 
 const { Header: AntHeader } = Layout;

@@ -132,7 +132,7 @@ const Footer: React.FC<FooterProps> = () => {
           <Row justify="space-between" align="middle">
             <Col xs={24} md={12}>
               <Text className="copyright">
-                © {currentYear} Grab. Tất cả quyền được bảo lưu.
+                © {currentYear} Chợ Dân Cư. Tất cả quyền được bảo lưu.
               </Text>
             </Col>
             <Col xs={24} md={12}>
