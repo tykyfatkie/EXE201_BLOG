@@ -93,7 +93,7 @@ const Footer: React.FC<FooterProps> = () => {
                 <Title level={5} className="section-title">Liên hệ trực tiếp</Title>
                 <div className="footer-links">
                   <Link href="https://www.facebook.com/anhlinh0301" className="footer-link">Facebook: Nguyễn Dương Ánh Linh</Link>
-                  <Link href="https://www.facebook.com/ngoc.hanh.172661" className="footer-link">Facebook: Trần Vương Ngọc Hạnh</Link>
+                  <Link href="https://www.facebook.com/ngoc.hanh.172661" className="footer-link">Facebook: Vương Ngọc Hạnh</Link>
                 </div>
               </div>
             </Col>
