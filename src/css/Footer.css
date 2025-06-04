@@ -1,0 +1,217 @@
+/* Footer.css */
+
+.grab-footer {
+  background: #1a1a1a !important;
+  color: white;
+  padding: 0 !important;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-main {
+  padding: 3rem 0 2rem;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+}
+
+/* Logo */
+.footer-section .logo-text {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #00b14f !important;
+  margin-bottom: 1rem !important;
+  display: block;
+}
+
+.footer-description {
+  color: #ccc !important;
+  line-height: 1.6;
+  margin-bottom: 2rem !important;
+  display: block;
+}
+
+/* Section Titles */
+.section-title {
+  color: white !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* Footer Links */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  color: #ccc !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.footer-link:hover {
+  color: #00b14f !important;
+}
+
+/* Social Media */
+.social-media {
+  margin-top: 2rem;
+}
+
+.social-btn {
+  color: #ccc !important;
+  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  color: #00b14f !important;
+  background: rgba(0, 177, 79, 0.1) !important;
+}
+
+/* App Download */
+.app-download {
+  margin-top: 2rem;
+}
+
+.download-btn {
+  display: flex !important;
+  align-items: center;
+  padding: 0.75rem 1rem !important;
+  height: auto !important;
+  background: #333 !important;
+  border: 1px solid #444 !important;
+  border-radius: 8px;
+  color: white !important;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: #444 !important;
+  border-color: #00b14f !important;
+  color: white !important;
+}
+
+.download-btn .anticon {
+  font-size: 1.5rem;
+  color: #00b14f;
+}
+
+.download-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.download-label {
+  font-size: 0.75rem !important;
+  color: #ccc !important;
+  line-height: 1 !important;
+}
+
+.download-store {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: white !important;
+  line-height: 1.2 !important;
+}
+
+/* Footer Divider */
+.footer-divider {
+  border-color: #333 !important;
+  margin: 2rem 0 1.5rem !important;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  padding-bottom: 2rem;
+}
+
+.copyright {
+  color: #999 !important;
+  font-size: 0.9rem;
+}
+
+.footer-bottom-links {
+  text-align: right;
+}
+
+.bottom-link {
+  color: #999 !important;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.bottom-link:hover {
+  color: #00b14f !important;
+}
+
+.separator {
+  color: #666;
+  margin: 0 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-main {
+    padding: 2rem 0 1.5rem;
+  }
+  
+  .footer-container {
+    padding: 0 1rem;
+  }
+  
+  .footer-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .footer-bottom-links {
+    text-align: left;
+    margin-top: 1rem;
+  }
+  
+  .footer-bottom .ant-row {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  
+  .social-media .ant-space {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-section .logo-text {
+    font-size: 1.5rem !important;
+  }
+  
+  .download-btn {
+    padding: 1rem !important;
+  }
+  
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
