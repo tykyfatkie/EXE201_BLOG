@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
-import NewsForm from '../../components/news/newsForm';
-import { newsService } from '../../services/newsService';
-import { CreateNewsRequest } from '../../types/news';
+import NewsForm from '../components/news/NewsForm';
+import { newsService } from '../services/newsService';
+import { CreateNewsRequest } from '../types/news';
 
 const CreateNewsPage: React.FC = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Typography, Card } from 'antd';
-import NewsList from '../../components/news/newsList';
+import NewsList from '../components/news/NewsList';
 
 const { Title, Paragraph } = Typography;
 
