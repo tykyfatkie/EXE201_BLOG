@@ -10,6 +10,7 @@ import {
   UserOutlined 
 } from '@ant-design/icons';
 import '../../css/Header.css';
+import { Link } from 'react-router-dom';
 
 const { Header: AntHeader } = Layout;
 const { Text } = Typography;
@@ -46,10 +47,12 @@ const Header: React.FC<HeaderProps> = () => {
           </Button>
 
 
-          <Button type="default" className="signin-btn">
-            <UserOutlined />
-            Đăng nhập
-          </Button>
+          <Link to="/login">
+            <Button type="default" className="signin-btn">
+              <UserOutlined />
+              Đăng nhập
+            </Button>
+          </Link>
 
           <Button
             type="text"

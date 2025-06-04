@@ -1,8 +1,7 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './src/pages/HomePage';
-import CreateNewsPage from './src/pages/CreateNewsPage';
-import AdminLoginPage from './src/pages/AdminLoginPage';
+import HomePage from '../pages/HomePage';
+import CreateNewsPage from '../pages/CreateNewsPage';
+import AdminLoginPage from '../pages/AdminLoginPage';
 
 function App() {
   return (
