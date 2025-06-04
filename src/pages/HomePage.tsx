@@ -44,7 +44,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                           className="hero-btn secondary-btn"
                           style={{ display: 'block', width: 'fit-content' }}
                         >
-                          Tải Ứng Dung
+                          Tải Ứng Dụng
                         </Button>
                       </div>
                     </div>

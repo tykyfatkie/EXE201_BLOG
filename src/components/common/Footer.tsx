@@ -72,48 +72,35 @@ const Footer: React.FC<FooterProps> = () => {
               </div>
             </Col>
 
-            {/* Services */}
+
             <Col xs={24} sm={12} md={6}>
               <div className="footer-section">
-                <Title level={5} className="section-title">Dịch vụ</Title>
+                <Title level={5} className="section-title">  </Title>
                 <div className="footer-links">
-                  <Link href="#" className="footer-link">GrabCar</Link>
+                  {/* <Link href="#" className="footer-link">GrabCar</Link>
                   <Link href="#" className="footer-link">GrabBike</Link>
                   <Link href="#" className="footer-link">GrabFood</Link>
                   <Link href="#" className="footer-link">GrabExpress</Link>
                   <Link href="#" className="footer-link">GrabMart</Link>
-                  <Link href="#" className="footer-link">GrabPay</Link>
+                  <Link href="#" className="footer-link">GrabPay</Link> */}
                 </div>
               </div>
             </Col>
 
-            {/* About */}
+
             <Col xs={24} sm={12} md={6}>
               <div className="footer-section">
-                <Title level={5} className="section-title">Về Grab</Title>
+                <Title level={5} className="section-title">Liên hệ trực tiếp</Title>
                 <div className="footer-links">
-                  <Link href="#" className="footer-link">Về chúng tôi</Link>
-                  <Link href="#" className="footer-link">Tin tức</Link>
-                  <Link href="#" className="footer-link">Tuyển dụng</Link>
-                  <Link href="#" className="footer-link">Nhà đầu tư</Link>
-                  <Link href="#" className="footer-link">Blog</Link>
-                  <Link href="#" className="footer-link">Trung tâm truyền thông</Link>
+                  <Link href="https://www.facebook.com/anhlinh0301" className="footer-link">Facebook: Nguyễn Dương Ánh Linh</Link>
+                  <Link href="https://www.facebook.com/ngoc.hanh.172661" className="footer-link">Facebook: Trần Vương Ngọc Hạnh</Link>
                 </div>
               </div>
             </Col>
 
-            {/* Support & Download */}
-            <Col xs={24} sm={12} md={6}>
-              <div className="footer-section">
-                <Title level={5} className="section-title">Hỗ trợ</Title>
-                <div className="footer-links">
-                  <Link href="#" className="footer-link">Trung tâm hỗ trợ</Link>
-                  <Link href="#" className="footer-link">An toàn</Link>
-                  <Link href="#" className="footer-link">Điều khoản dịch vụ</Link>
-                  <Link href="#" className="footer-link">Chính sách bảo mật</Link>
-                </div>
 
-                {/* App Download */}
+            <Col xs={24} sm={12} md={6}>
+              <div className="footer-section">               
                 <div className="app-download">
                   <Title level={5} className="section-title">Tải ứng dụng</Title>
                   <Space direction="vertical" size="small">
