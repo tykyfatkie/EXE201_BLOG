@@ -60,14 +60,12 @@ const Dashboard: React.FC = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imageUrl, setImageUrl] = useState<string>('');
 
-  // Get API base URL
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7159';
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-  // Fetch blogs data
   const fetchBlogs = async () => {
     setTableLoading(true);
     try {
-      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
+      const response = await fetch(`${apiBaseUrl}api/Blogs`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -98,14 +96,12 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Load blogs when component mounts or when switching to blog management
   useEffect(() => {
     if (selectedKey === '3' || selectedKey === '3-1' || selectedKey === '3-2' || selectedKey === '3-3') {
       fetchBlogs();
     }
   }, [selectedKey]);
 
-  // Handle image upload
   const handleImageUpload: UploadProps['customRequest'] = async (options) => {
     const { file, onSuccess, onError } = options;
     
@@ -113,7 +109,6 @@ const Dashboard: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file as File);
 
-      // Upload image to your image upload API
       const response = await fetch(`${apiBaseUrl}/api/Upload/image`, {
         method: 'POST',
         credentials: 'include',
@@ -139,14 +134,12 @@ const Dashboard: React.FC = () => {
     setFileList(info.fileList);
   };
 
-  // Handle form submission
   const handleFinish = async (values: BlogFormData) => {
     setLoading(true);
     
     try {
-      // Get current user info (you might need to adjust this based on how you store user info)
       const userInfo = localStorage.getItem('userInfo');
-      let userId = '1'; // Default fallback
+      let userId = '1'; 
       
       if (userInfo) {
         const user = JSON.parse(userInfo);
@@ -162,7 +155,7 @@ const Dashboard: React.FC = () => {
 
       console.log('Sending blog data:', blogData);
 
-      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
+      const response = await fetch(`${apiBaseUrl}api/Blogs`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -177,7 +170,7 @@ const Dashboard: React.FC = () => {
         setFileList([]);
         setImageUrl('');
         
-        // Refresh blogs list if currently viewing it
+
         if (selectedKey === '3' || selectedKey === '3-1' || selectedKey === '3-2' || selectedKey === '3-3') {
           fetchBlogs();
         }
@@ -204,7 +197,7 @@ const Dashboard: React.FC = () => {
       okType: 'danger',
       onOk: async () => {
         try {
-          const response = await fetch(`${apiBaseUrl}/api/Blogs/${blogId}`, {
+          const response = await fetch(`${apiBaseUrl}api/Blogs/${blogId}`, {
             method: 'DELETE',
             credentials: 'include',
           });

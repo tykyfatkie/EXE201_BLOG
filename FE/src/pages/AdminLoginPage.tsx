@@ -21,15 +21,14 @@ const AdminLoginPage: React.FC = () => {
     setError('');
 
     try {
-      // Get API base URL from environment
-      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7159';
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
       
-      const response = await fetch(`${apiBaseUrl}/api/Users/login`, {
+      const response = await fetch(`${apiBaseUrl}api/Users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Important: Include cookies in request
+        credentials: 'include', 
         body: JSON.stringify({
           username: values.username,
           password: values.password,
@@ -37,7 +36,6 @@ const AdminLoginPage: React.FC = () => {
       });
 
       if (response.ok) {
-        // Login successful - backend has set cookie
         console.log('Login successful');
         
         // Handle remember me (store locally if needed)
