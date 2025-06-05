@@ -1,0 +1,210 @@
+/* Header.css */
+
+.grab-header {
+  background: white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 0 !important;
+  height: 64px;
+  line-height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 20px;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.grab-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #00b14f !important;
+  margin: 0 !important;
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 2rem;
+}
+
+.main-menu {
+  border-bottom: none !important;
+  background: transparent !important;
+}
+
+.main-menu .ant-menu-item {
+  font-weight: 500;
+  color: #333 !important;
+  margin: 0 1rem;
+  padding: 0 0.5rem !important;
+}
+
+.main-menu .ant-menu-item:hover {
+  color: #00b14f !important;
+}
+
+.main-menu .ant-menu-item-selected {
+  color: #00b14f !important;
+}
+
+.main-menu .ant-menu-submenu-title {
+  font-weight: 500;
+  color: #333 !important;
+  margin: 0 1rem;
+  padding: 0 0.5rem !important;
+}
+
+.main-menu .ant-menu-submenu-title:hover {
+  color: #00b14f !important;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.language-dropdown .ant-btn {
+  border: none !important;
+  box-shadow: none !important;
+  color: #666 !important;
+  font-weight: 500;
+}
+
+.language-dropdown .ant-btn:hover {
+  color: #00b14f !important;
+  background: rgba(0, 177, 79, 0.05) !important;
+}
+
+.language-text {
+  margin-left: 0.5rem;
+}
+
+.help-btn {
+  color: #666 !important;
+  font-weight: 500;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.help-btn:hover {
+  color: #00b14f !important;
+  background: rgba(0, 177, 79, 0.05) !important;
+}
+
+.signin-btn {
+  background: #00b14f !important;
+  border-color: #00b14f !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 0 1.5rem;
+}
+
+.signin-btn:hover {
+  background: #00a045 !important;
+  border-color: #00a045 !important;
+  color: white !important;
+}
+
+.mobile-menu-btn {
+  display: none !important;
+  font-size: 1.2rem;
+  color: #333 !important;
+}
+
+/* Mobile Drawer */
+.mobile-drawer .ant-drawer-body {
+  padding: 0 !important;
+}
+
+.mobile-menu {
+  border-right: none !important;
+}
+
+.mobile-menu .ant-menu-item {
+  margin: 0 !important;
+  padding: 1rem 1.5rem !important;
+  height: auto !important;
+  line-height: 1.5 !important;
+}
+
+.mobile-actions {
+  position: absolute;
+  bottom: 2rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-signin {
+  background: #00b14f !important;
+  border-color: #00b14f !important;
+  height: 3rem;
+  font-weight: 600;
+}
+
+.mobile-help {
+  height: 3rem;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .header-actions .language-dropdown,
+  .header-actions .help-btn,
+  .header-actions .signin-btn {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: inline-flex !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Dropdown Customization */
+.ant-dropdown-menu {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: rgba(0, 177, 79, 0.05) !important;
+}
