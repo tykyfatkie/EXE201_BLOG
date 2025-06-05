@@ -4,7 +4,6 @@ import {
   Card, 
   Row, 
   Col, 
-  Statistic, 
   Table, 
   Button, 
   Tag, 
@@ -22,11 +21,7 @@ import {
   DeleteOutlined,
   PlusOutlined,
   UploadOutlined,
-  FileTextOutlined,
-  UserOutlined,
-  BarChartOutlined,
-  RiseOutlined
-} from '@ant-design/icons';
+  BarChartOutlined} from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import Sidebar from '../components/common/Sidebar';
 import '../css/Dashboard.css';
@@ -51,38 +46,9 @@ const Dashboard: React.FC = () => {
   const [selectedKey, setSelectedKey] = useState('1');
   const [form] = Form.useForm();
 
-  // Sample data for articles
   const articlesData: ArticleData[] = [
-    {
-      key: '1',
-      id: 'ART001',
-      title: 'Xu hướng công nghệ 2024',
-      category: 'Công nghệ',
-      status: 'published',
-      author: 'Admin',
-      createdAt: '2024-01-15',
-      views: 1250
-    },
-    {
-      key: '2',
-      id: 'ART002',
-      title: 'Tips học lập trình hiệu quả',
-      category: 'Giáo dục',
-      status: 'draft',
-      author: 'Admin',
-      createdAt: '2024-01-14',
-      views: 890
-    },
-    {
-      key: '3',
-      id: 'ART003',
-      title: 'Tin tức thị trường crypto',
-      category: 'Tài chính',
-      status: 'pending',
-      author: 'Admin',
-      createdAt: '2024-01-13',
-      views: 2340
-    }
+
+
   ];
 
   const columns: ColumnsType<ArticleData> = [
@@ -107,20 +73,6 @@ const Dashboard: React.FC = () => {
       render: (category: string) => (
         <Tag color="blue">{category}</Tag>
       ),
-    },
-    {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => {
-        const statusConfig = {
-          published: { color: 'green', text: 'Đã xuất bản' },
-          draft: { color: 'orange', text: 'Bản nháp' },
-          pending: { color: 'blue', text: 'Chờ duyệt' }
-        };
-        const config = statusConfig[status as keyof typeof statusConfig];
-        return <Tag color={config.color}>{config.text}</Tag>;
-      },
     },
     {
       title: 'Lượt xem',
@@ -156,68 +108,6 @@ const Dashboard: React.FC = () => {
     switch (selectedKey) {
       case '1':
         return (
-          <div className="dashboard-overview">
-            <Row gutter={[24, 24]}>
-              <Col xs={24} sm={12} lg={6}>
-                <Card className="stat-card">
-                  <Statistic
-                    title="Tổng bài viết"
-                    value={156}
-                    prefix={<FileTextOutlined />}
-                    valueStyle={{ color: '#3f8600' }}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <Card className="stat-card">
-                  <Statistic
-                    title="Lượt xem"
-                    value={89564}
-                    prefix={<EyeOutlined />}
-                    valueStyle={{ color: '#1890ff' }}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <Card className="stat-card">
-                  <Statistic
-                    title="Người dùng"
-                    value={1234}
-                    prefix={<UserOutlined />}
-                    valueStyle={{ color: '#722ed1' }}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} lg={6}>
-                <Card className="stat-card">
-                  <Statistic
-                    title="Tăng trưởng"
-                    value={12.5}
-                    prefix={<RiseOutlined />}
-                    suffix="%"
-                    valueStyle={{ color: '#cf1322' }}
-                  />
-                </Card>
-              </Col>
-            </Row>
-
-            <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
-              <Col span={24}>
-                <Card title="Bài viết gần đây" className="recent-articles">
-                  <Table
-                    columns={columns}
-                    dataSource={articlesData}
-                    pagination={{ pageSize: 5 }}
-                    scroll={{ x: 800 }}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        );
-
-      case '2':
-        return (
           <div className="write-article">
             <Card title="Viết bài viết mới" className="article-form-card">
               <Form
@@ -247,7 +137,7 @@ const Dashboard: React.FC = () => {
                       />
                     </Form.Item>
 
-                    <Form.Item label="Ảnh đại diện">
+                    <Form.Item label="Upload hình ảnh">
                       <Upload
                         listType="picture-card"
                         maxCount={1}
@@ -273,18 +163,6 @@ const Dashboard: React.FC = () => {
                         <Option value="finance">Tài chính</Option>
                         <Option value="health">Sức khỏe</Option>
                         <Option value="lifestyle">Lối sống</Option>
-                      </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                      label="Trạng thái"
-                      name="status"
-                      initialValue="draft"
-                    >
-                      <Select size="large">
-                        <Option value="draft">Bản nháp</Option>
-                        <Option value="pending">Chờ duyệt</Option>
-                        <Option value="published">Xuất bản</Option>
                       </Select>
                     </Form.Item>
 
@@ -315,13 +193,6 @@ const Dashboard: React.FC = () => {
                           block
                         >
                           Xuất bản
-                        </Button>
-                        <Button 
-                          icon={<EditOutlined />}
-                          size="large"
-                          block
-                        >
-                          Lưu nháp
                         </Button>
                       </Space>
                     </div>

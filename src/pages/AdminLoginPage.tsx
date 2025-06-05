@@ -11,6 +11,17 @@ interface LoginFormData {
   remember: boolean;
 }
 
+interface LoginResponse {
+  success: boolean;
+  token?: string;
+  message?: string;
+  user?: {
+    id: string;
+    username: string;
+    role: string;
+  };
+}
+
 const AdminLoginPage: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -21,21 +32,56 @@ const AdminLoginPage: React.FC = () => {
     setError('');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Get API base URL from environment
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7159';
       
-      // Demo validation - replace with real authentication
-      if (values.username === 'admin' && values.password === 'admin123') {
-        console.log('Login successful:', values);
+      const response = await fetch(`${apiBaseUrl}/api/Users/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
+      });
+
+      const data: LoginResponse = await response.json();
+
+      if (response.ok && data.success) {
+        // Store authentication token
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+        }
+        
+        // Store user info
+        if (data.user) {
+          localStorage.setItem('userInfo', JSON.stringify(data.user));
+        }
+
+        // Handle remember me
+        if (values.remember) {
+          localStorage.setItem('rememberMe', 'true');
+        }
+
+        console.log('Login successful:', data);
         alert('Đăng nhập thành công! Chuyển hướng đến trang quản trị...');
         
         // Redirect to dashboard
         window.location.href = '/dashboard';
       } else {
-        setError('Tên đăng nhập hoặc mật khẩu không chính xác');
+        // Handle API error response
+        setError(data.message || 'Tên đăng nhập hoặc mật khẩu không chính xác');
       }
     } catch (err) {
-      setError('Có lỗi xảy ra. Vui lòng thử lại sau.');
+      console.error('Login error:', err);
+      
+      // Handle different types of errors
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        setError('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.');
+      } else {
+        setError('Có lỗi xảy ra. Vui lòng thử lại sau.');
+      }
     } finally {
       setLoading(false);
     }
@@ -161,26 +207,23 @@ const AdminLoginPage: React.FC = () => {
           </Text>
         </div>
 
-        {/* Demo credentials info */}
-        <div className="demo-credentials">
-          <div className="demo-decoration" />
-          
-          <Text className="demo-title">
-            🎯 Demo Credentials
-          </Text>
-          <div className="demo-content">
-            <div>
-              <Text className="demo-text">
-                Username: <code className="demo-code">admin</code>
-              </Text>
-            </div>
-            <div>
-              <Text className="demo-text">
-                Password: <code className="demo-code">admin123</code>
-              </Text>
+        {/* Development info - remove in production */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="demo-credentials">
+            <div className="demo-decoration" />
+            
+            <Text className="demo-title">
+              🔧 Development Mode
+            </Text>
+            <div className="demo-content">
+              <div>
+                <Text className="demo-text">
+                  API Endpoint: <code className="demo-code">{process.env.REACT_APP_API_BASE_URL || 'https://localhost:7159'}/api/Users/login</code>
+                </Text>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Card>
     </div>
   );

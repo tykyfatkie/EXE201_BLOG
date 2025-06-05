@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
-  MenuFoldOutlined, 
-  MenuUnfoldOutlined,
-  DashboardOutlined,
   FileTextOutlined,
   EditOutlined,
   TeamOutlined,
   SettingOutlined,
   LogoutOutlined,
-  BellOutlined,
   BarChartOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Button, Avatar, Dropdown, Badge } from 'antd';
+import { Layout, Menu, Avatar, Button, Modal } from 'antd';
 import type { MenuProps } from 'antd';
 import '../../css/Sidebar.css';
 
-const { Sider, Header } = Layout;
+const { Sider } = Layout;
 
 interface SidebarProps {
   collapsed: boolean;
@@ -28,98 +24,87 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   collapsed, 
-  setCollapsed, 
   selectedKey, 
   setSelectedKey 
 }) => {
   const menuItems: MenuItem[] = [
     {
       key: '1',
-      icon: <DashboardOutlined />,
-      label: 'Dashboard',
-    },
-    {
-      key: '2',
       icon: <EditOutlined />,
       label: 'Viết tin tức',
     },
     {
-      key: '3',
+      key: '2',
       icon: <FileTextOutlined />,
       label: 'Quản lý bài viết',
       children: [
         {
-          key: '3-1',
+          key: '2-1',
           label: 'Tất cả bài viết',
         },
         {
-          key: '3-2',
-          label: 'Bài viết nháp',
+          key: '2-2',
+          label: 'Bài viết đã xuất bản',
         },
         {
-          key: '3-3',
-          label: 'Bài viết đã xuất bản',
+          key: '2-3',
+          label: 'Bài viết đã xóa',
         },
       ],
     },
     {
-      key: '4',
+      key: '3',
       icon: <BarChartOutlined />,
       label: 'Thống kê',
     },
     {
-      key: '5',
+      key: '4',
       icon: <TeamOutlined />,
       label: 'Quản lý người dùng',
     },
     {
-      key: '6',
+      key: '5',
       icon: <SettingOutlined />,
       label: 'Cài đặt',
     },
   ];
 
-  const userMenuItems: MenuProps['items'] = [
-    {
-      key: 'profile',
-      label: 'Hồ sơ của tôi',
-    },
-    {
-      key: 'settings',
-      label: 'Cài đặt tài khoản',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'logout',
-      label: 'Đăng xuất',
-      icon: <LogoutOutlined />,
-      danger: true,
-    },
-  ];
-
-  const handleUserMenuClick = ({ key }: { key: string }) => {
-    switch (key) {
-      case 'logout':
-        // Clear authentication data if needed
-        localStorage.removeItem('authToken');
-        sessionStorage.removeItem('userData');
+  const handleLogout = () => {
+    Modal.confirm({
+      title: 'Xác nhận đăng xuất',
+      content: 'Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?',
+      okText: 'Đăng xuất',
+      cancelText: 'Hủy',
+      onOk: () => {
+        // Xóa localStorage
+        localStorage.clear();
         
-        // Redirect to home page
-        window.location.href = '/';
-        break;
-      case 'profile':
-        // Handle profile navigation
-        console.log('Navigate to profile');
-        break;
-      case 'settings':
-        // Handle settings navigation
-        console.log('Navigate to settings');
-        break;
-      default:
-        break;
-    }
+        // Xóa sessionStorage
+        sessionStorage.clear();
+        
+        // Xóa tất cả cookies
+        document.cookie.split(";").forEach(cookie => {
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          // Xóa cookie cho domain hiện tại
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+          // Xóa cookie cho subdomain
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + window.location.hostname;
+          // Xóa cookie cho domain gốc
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=." + window.location.hostname.split('.').slice(-2).join('.');
+        });
+        
+        // Xóa authentication tokens khỏi window object (nếu có)
+        if ('authToken' in window) delete (window as any).authToken;
+        if ('accessToken' in window) delete (window as any).accessToken;
+        if ('refreshToken' in window) delete (window as any).refreshToken;
+        
+        // Redirect về trang login
+        window.location.href = '/login';
+        // Hoặc nếu dùng React Router:
+        // navigate('/login');
+      }
+    });
   };
 
   const handleMenuClick = ({ key }: { key: string }) => {
@@ -157,51 +142,54 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="sidebar-footer">
             <div className="user-info">
               <Avatar size={32} className="user-avatar">
-                A
+                Phat
               </Avatar>
               <div className="user-details">
-                <div className="user-name">Admin User</div>
+                <div className="user-name">Admin Phat</div>
                 <div className="user-role">Quản trị viên</div>
               </div>
             </div>
+            <Button 
+              type="text" 
+              icon={<LogoutOutlined />} 
+              onClick={handleLogout}
+              className="logout-btn"
+              style={{
+                width: '100%',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                color: '#ff4d4f',
+                padding: '8px 16px'
+              }}
+            >
+              Đăng xuất
+            </Button>
+          </div>
+        )}
+        
+        {collapsed && (
+          <div className="sidebar-footer-collapsed">
+            <Button 
+              type="text" 
+              icon={<LogoutOutlined />} 
+              onClick={handleLogout}
+              className="logout-btn-collapsed"
+              style={{
+                width: '100%',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ff4d4f',
+                marginTop: '8px'
+              }}
+              title="Đăng xuất"
+            />
           </div>
         )}
       </Sider>
-
-      <Header className="dashboard-header">
-        <div className="header-left">
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            className="collapse-btn"
-          />
-          <h2 className="page-title">Dashboard Quản trị</h2>
-        </div>
-        
-        <div className="header-right">
-          <Badge count={5} size="small" className="notification-badge">
-            <Button 
-              type="text" 
-              icon={<BellOutlined />} 
-              className="notification-btn"
-            />
-          </Badge>
-          
-          <Dropdown 
-            menu={{ items: userMenuItems, onClick: handleUserMenuClick }} 
-            placement="bottomRight"
-            trigger={['click']}
-          >
-            <div className="user-dropdown">
-              <Avatar size={36} className="header-avatar">
-                A
-              </Avatar>
-              <span className="user-name-header">Admin</span>
-            </div>
-          </Dropdown>
-        </div>
-      </Header>
     </>
   );
 };
