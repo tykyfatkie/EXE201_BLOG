@@ -11,17 +11,6 @@ interface LoginFormData {
   remember: boolean;
 }
 
-interface LoginResponse {
-  success: boolean;
-  token?: string;
-  message?: string;
-  user?: {
-    id: string;
-    username: string;
-    role: string;
-  };
-}
-
 const AdminLoginPage: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -40,38 +29,42 @@ const AdminLoginPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Important: Include cookies in request
         body: JSON.stringify({
           username: values.username,
           password: values.password,
         }),
       });
 
-      const data: LoginResponse = await response.json();
-
-      if (response.ok && data.success) {
-        // Store authentication token
-        if (data.token) {
-          localStorage.setItem('authToken', data.token);
-        }
+      if (response.ok) {
+        // Login successful - backend has set cookie
+        console.log('Login successful');
         
-        // Store user info
-        if (data.user) {
-          localStorage.setItem('userInfo', JSON.stringify(data.user));
-        }
-
-        // Handle remember me
+        // Handle remember me (store locally if needed)
         if (values.remember) {
           localStorage.setItem('rememberMe', 'true');
+          // Optionally store username for convenience
+          localStorage.setItem('rememberedUsername', values.username);
+        } else {
+          localStorage.removeItem('rememberMe');
+          localStorage.removeItem('rememberedUsername');
         }
 
-        console.log('Login successful:', data);
         alert('Đăng nhập thành công! Chuyển hướng đến trang quản trị...');
         
         // Redirect to dashboard
         window.location.href = '/dashboard';
       } else {
-        // Handle API error response
-        setError(data.message || 'Tên đăng nhập hoặc mật khẩu không chính xác');
+        // Handle different HTTP status codes
+        if (response.status === 401) {
+          setError('Tên đăng nhập hoặc mật khẩu không chính xác');
+        } else if (response.status === 403) {
+          setError('Tài khoản không có quyền truy cập');
+        } else if (response.status === 500) {
+          setError('Lỗi server. Vui lòng thử lại sau');
+        } else {
+          setError('Đăng nhập thất bại. Vui lòng thử lại');
+        }
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -90,6 +83,19 @@ const AdminLoginPage: React.FC = () => {
   const handleGoHome = () => {
     window.location.href = '/';
   };
+
+  // Load remembered username on component mount
+  React.useEffect(() => {
+    const rememberMe = localStorage.getItem('rememberMe');
+    const rememberedUsername = localStorage.getItem('rememberedUsername');
+    
+    if (rememberMe === 'true' && rememberedUsername) {
+      loginForm.setFieldsValue({
+        username: rememberedUsername,
+        remember: true
+      });
+    }
+  }, [loginForm]);
 
   return (
     <div className="login-container">
