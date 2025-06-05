@@ -10,6 +10,7 @@ import {
 import { Layout, Menu, Avatar, Button, Modal } from 'antd';
 import type { MenuProps } from 'antd';
 import '../../css/Sidebar.css';
+import Logo from '../../images/logo.png';
 
 const { Sider } = Layout;
 
@@ -123,9 +124,17 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className="sidebar-logo">
           <div className="logo-container">
-            <div className="logo-icon">
-              {collapsed ? 'N' : 'NewsAdmin'}
-            </div>
+            <img 
+              src={Logo}
+              alt="Logo" 
+              className="logo-image"
+              style={{
+                height: collapsed ? '32px' : '40px',
+                width: 'auto',
+                objectFit: 'contain',
+                transition: 'all 0.3s ease'
+              }}
+            />           
           </div>
         </div>
         

@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
   const fetchBlogs = async () => {
     setTableLoading(true);
     try {
-      const response = await fetch(`${apiBaseUrl}api/Blogs`, {
+      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -155,7 +155,7 @@ const Dashboard: React.FC = () => {
 
       console.log('Sending blog data:', blogData);
 
-      const response = await fetch(`${apiBaseUrl}api/Blogs`, {
+      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -197,7 +197,7 @@ const Dashboard: React.FC = () => {
       okType: 'danger',
       onOk: async () => {
         try {
-          const response = await fetch(`${apiBaseUrl}api/Blogs/${blogId}`, {
+          const response = await fetch(`${apiBaseUrl}/api/Blogs/${blogId}`, {
             method: 'DELETE',
             credentials: 'include',
           });

@@ -23,7 +23,7 @@ const AdminLoginPage: React.FC = () => {
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
       
-      const response = await fetch(`${apiBaseUrl}api/Users/login`, {
+      const response = await fetch(`${apiBaseUrl}/api/Users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
