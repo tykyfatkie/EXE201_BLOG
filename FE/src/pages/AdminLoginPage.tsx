@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Card, Typography, Alert, Checkbox, Space } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone, CheckOutlined, HomeOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'; // Add this import
 import '../css/AdminLoginPage.css';
 
 const { Title, Text } = Typography;
@@ -15,44 +16,93 @@ const AdminLoginPage: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate(); // Add this hook
 
   const handleLogin = async (values: LoginFormData) => {
+    console.log('=== LOGIN ATTEMPT STARTED ===');
+    console.log('Form values:', values);
+    
     setLoading(true);
     setError('');
 
     try {
       const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+      console.log('API Base URL from env:', apiBaseUrl);
       
-      const response = await fetch(`${apiBaseUrl}/api/Users/login`, {
+      const fullUrl = `${apiBaseUrl}/api/Users/login`;
+      console.log('Full API URL:', fullUrl);
+      
+      const requestBody = {
+        username: values.username,
+        password: values.password,
+      };
+      console.log('Request body:', requestBody);
+      
+      console.log('Making fetch request...');
+      
+      const response = await fetch(fullUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', 
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
+        credentials: 'include', // This ensures cookies are sent and received
+        body: JSON.stringify(requestBody),
       });
 
+      console.log('Response received:', response);
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (response.ok) {
-        console.log('Login successful');
+        const responseData = await response.json();
+        console.log('Login successful, response data:', responseData);
         
-        // Handle remember me (store locally if needed)
+        // Store user info in localStorage for reference
+        if (responseData.user || responseData.userId || responseData.id) {
+          const userInfo = {
+            id: responseData.userId || responseData.id || responseData.user?.id,
+            username: responseData.username || responseData.user?.username || values.username,
+            ...responseData.user
+          };
+          localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          console.log('User info stored:', userInfo);
+        }
+
+        // Handle remember me
         if (values.remember) {
           localStorage.setItem('rememberMe', 'true');
-          // Optionally store username for convenience
           localStorage.setItem('rememberedUsername', values.username);
+          console.log('Remember me enabled - saved to localStorage');
         } else {
           localStorage.removeItem('rememberMe');
           localStorage.removeItem('rememberedUsername');
+          console.log('Remember me disabled - removed from localStorage');
         }
 
-        alert('Đăng nhập thành công! Chuyển hướng đến trang quản trị...');
+        // Check if cookies were set properly
+        console.log('Document cookies after login:', document.cookie);
         
-        // Redirect to dashboard
-        window.location.href = '/dashboard';
+        // Wait a bit for cookies to be properly set
+        setTimeout(() => {
+          console.log('Navigating to dashboard...');
+          // Use React Router navigate instead of window.location.href
+          navigate('/dashboard', { replace: true });
+          
+          // Alternative: if navigate doesn't work, use window.location.replace
+          // window.location.replace('/dashboard');
+        }, 100);
+
       } else {
+        console.log('Login failed with status:', response.status);
+        
+        // Try to get error message from response
+        try {
+          const errorData = await response.text();
+          console.log('Error response body:', errorData);
+        } catch (parseError) {
+          console.log('Could not parse error response:', parseError);
+        }
+        
         // Handle different HTTP status codes
         if (response.status === 401) {
           setError('Tên đăng nhập hoặc mật khẩu không chính xác');
@@ -65,35 +115,57 @@ const AdminLoginPage: React.FC = () => {
         }
       }
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('=== LOGIN ERROR ===');
+      console.error('Error type:', typeof err);
+      console.error('Error message:', err instanceof Error ? err.message : 'Unknown error');
+      console.error('Full error:', err);
       
       // Handle different types of errors
       if (err instanceof TypeError && err.message.includes('fetch')) {
+        console.error('Network/Fetch error detected');
         setError('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.');
       } else {
         setError('Có lỗi xảy ra. Vui lòng thử lại sau.');
       }
     } finally {
       setLoading(false);
+      console.log('=== LOGIN ATTEMPT ENDED ===');
     }
   };
 
   const handleGoHome = () => {
-    window.location.href = '/';
+    console.log('Navigating to home page...');
+    navigate('/'); // Use navigate instead of window.location.href
   };
 
   // Load remembered username on component mount
   React.useEffect(() => {
+    console.log('Component mounted, checking for remembered login...');
+    
     const rememberMe = localStorage.getItem('rememberMe');
     const rememberedUsername = localStorage.getItem('rememberedUsername');
     
+    console.log('Remember me:', rememberMe);
+    console.log('Remembered username:', rememberedUsername);
+    
     if (rememberMe === 'true' && rememberedUsername) {
+      console.log('Setting remembered values in form...');
       loginForm.setFieldsValue({
         username: rememberedUsername,
         remember: true
       });
     }
   }, [loginForm]);
+
+  // Debug environment variables and cookies
+  React.useEffect(() => {
+    console.log('=== ENVIRONMENT DEBUG ===');
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('REACT_APP_API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
+    console.log('Current cookies:', document.cookie);
+    console.log('All REACT_APP_ vars:', Object.keys(process.env).filter(key => key.startsWith('REACT_APP_')));
+    console.log('========================');
+  }, []);
 
   return (
     <div className="login-container">
@@ -223,6 +295,16 @@ const AdminLoginPage: React.FC = () => {
               <div>
                 <Text className="demo-text">
                   API Endpoint: <code className="demo-code">{process.env.REACT_APP_API_BASE_URL || 'https://localhost:7159'}/api/Users/login</code>
+                </Text>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <Text className="demo-text">
+                  Environment: <code className="demo-code">{process.env.NODE_ENV}</code>
+                </Text>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <Text className="demo-text">
+                  Current Cookies: <code className="demo-code">{document.cookie || 'No cookies'}</code>
                 </Text>
               </div>
             </div>
