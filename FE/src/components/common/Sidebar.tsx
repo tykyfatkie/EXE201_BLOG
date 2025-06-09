@@ -53,21 +53,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         },
       ],
     },
-    {
-      key: '3',
-      icon: <BarChartOutlined />,
-      label: 'Thống kê',
-    },
-    {
-      key: '4',
-      icon: <TeamOutlined />,
-      label: 'Quản lý người dùng',
-    },
-    {
-      key: '5',
-      icon: <SettingOutlined />,
-      label: 'Cài đặt',
-    },
   ];
 
   const handleLogout = () => {
@@ -77,33 +62,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       okText: 'Đăng xuất',
       cancelText: 'Hủy',
       onOk: () => {
-        // Xóa localStorage
-        localStorage.clear();
-        
-        // Xóa sessionStorage
-        sessionStorage.clear();
-        
-        // Xóa tất cả cookies
-        document.cookie.split(";").forEach(cookie => {
-          const eqPos = cookie.indexOf("=");
-          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-          // Xóa cookie cho domain hiện tại
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-          // Xóa cookie cho subdomain
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + window.location.hostname;
-          // Xóa cookie cho domain gốc
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=." + window.location.hostname.split('.').slice(-2).join('.');
-        });
-        
-        // Xóa authentication tokens khỏi window object (nếu có)
+        localStorage.clear();      
+        sessionStorage.clear();      
         if ('authToken' in window) delete (window as any).authToken;
         if ('accessToken' in window) delete (window as any).accessToken;
         if ('refreshToken' in window) delete (window as any).refreshToken;
-        
-        // Redirect về trang login
         window.location.href = '/login';
-        // Hoặc nếu dùng React Router:
-        // navigate('/login');
+
       }
     });
   };

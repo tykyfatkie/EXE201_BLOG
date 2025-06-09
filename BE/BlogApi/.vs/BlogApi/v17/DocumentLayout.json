@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{01137297-84FD-4845-918D-671D87F48CAF}|BlogApi\\BlogApi.csproj|d:\\fpt\\exe201\\exe201_blog\\be\\blogapi\\blogapi\\controllers\\blogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01137297-84FD-4845-918D-671D87F48CAF}|BlogApi\\BlogApi.csproj|solutionrelative:blogapi\\controllers\\blogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{01137297-84FD-4845-918D-671D87F48CAF}|BlogApi\\BlogApi.csproj|d:\\fpt\\exe201\\exe201_blog\\be\\blogapi\\blogapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{01137297-84FD-4845-918D-671D87F48CAF}|BlogApi\\BlogApi.csproj|solutionrelative:blogapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,19 +31,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "BlogsController.cs",
+              "DocumentMoniker": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\Controllers\\BlogsController.cs",
+              "RelativeDocumentMoniker": "BlogApi\\Controllers\\BlogsController.cs",
+              "ToolTip": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\Controllers\\BlogsController.cs",
+              "RelativeToolTip": "BlogApi\\Controllers\\BlogsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T09:01:20.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\Program.cs",
               "RelativeDocumentMoniker": "BlogApi\\Program.cs",
               "ToolTip": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\Program.cs",
               "RelativeToolTip": "BlogApi\\Program.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAFQAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEkAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T02:26:32.817Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\appsettings.json",
               "RelativeDocumentMoniker": "BlogApi\\appsettings.json",
@@ -47,12 +64,11 @@
               "RelativeToolTip": "BlogApi\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-05T02:02:50.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-05T02:02:50.497Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CreateBlogDto.cs",
               "DocumentMoniker": "D:\\FPT\\EXE201\\EXE201_BLOG\\BE\\BlogApi\\BlogApi\\DTOs\\CreateBlogDto.cs",
               "RelativeDocumentMoniker": "BlogApi\\DTOs\\CreateBlogDto.cs",

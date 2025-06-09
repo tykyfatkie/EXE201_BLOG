@@ -10,7 +10,6 @@ import {
   Space,
   Input,
   Form,
-  Upload,
   message,
   Modal} from 'antd';
 import { 
@@ -18,12 +17,10 @@ import {
   EyeOutlined, 
   DeleteOutlined,
   PlusOutlined,
-  UploadOutlined,
   BarChartOutlined,
   LoadingOutlined
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import type { UploadFile, UploadProps } from 'antd/es/upload';
 import Sidebar from '../components/common/Sidebar';
 import '../css/Dashboard.css';
 
@@ -38,6 +35,11 @@ interface BlogData {
   imageUrl?: string;
   userId: string;
   createdAt: string;
+  user?: {
+    id: string;
+    username: string;
+    createdAt: string;
+  };
 }
 
 interface BlogFormData {
@@ -48,76 +50,44 @@ interface BlogFormData {
 
 const Dashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKey, setSelectedKey] = useState('1');
+  const [selectedKey, setSelectedKey] = useState('3'); // Thay đổi từ '1' thành '3' để test
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [blogsData, setBlogsData] = useState<BlogData[]>([]);
   const [tableLoading, setTableLoading] = useState(false);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [imageUrl, setImageUrl] = useState<string>('');
 
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  // Thêm fallback cho apiBaseUrl
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
-  // Debug function to check cookies
-  const debugCookies = () => {
-    console.log('=== COOKIE DEBUG ===');
-    console.log('All cookies:', document.cookie);
-    console.log('Document domain:', document.domain);
-    console.log('Current URL:', window.location.href);
-    console.log('API Base URL:', apiBaseUrl);
-    
-    // Check specific auth cookies
-    const cookies = document.cookie.split(';');
-    cookies.forEach(cookie => {
-      const [name, value] = cookie.trim().split('=');
-      console.log(`Cookie: ${name} = ${value}`);
-    });
-  };
-
-  // Enhanced fetch with proper cookie handling
   const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
-    debugCookies(); // Debug cookies before each request
-    
     const defaultOptions: RequestInit = {
-      credentials: 'include', // This is CRITICAL for cookies
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        // Add these headers to help with CORS
         'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
         ...options.headers,
       },
       ...options,
     };
 
-    console.log('=== REQUEST DEBUG ===');
-    console.log('URL:', url);
-    console.log('Method:', options.method || 'GET');
-    console.log('Headers:', defaultOptions.headers);
-    console.log('Credentials:', defaultOptions.credentials);
-
     const response = await fetch(url, defaultOptions);
-    
-    console.log('=== RESPONSE DEBUG ===');
-    console.log('Status:', response.status);
-    console.log('StatusText:', response.statusText);
-    console.log('Response Headers:');
-    response.headers.forEach((value, key) => {
-      console.log(`  ${key}: ${value}`);
-    });
-
     return response;
   };
 
   const fetchBlogs = async () => {
+    console.log('Fetching blogs...'); // Debug log
     setTableLoading(true);
     try {
-      const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs`, {
+      const fullUrl = `${apiBaseUrl}/api/Blogs`;
+      console.log('API URL:', fullUrl); // Debug log
+      
+      const response = await fetchWithAuth(fullUrl, {
         method: 'GET',
       });
 
+      console.log('Response status:', response.status); // Debug log
+
       if (response.status === 302) {
-        console.warn('Received 302 redirect - authentication might be required');
         message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
         return;
       }
@@ -134,74 +104,35 @@ const Dashboard: React.FC = () => {
           imageUrl: blog.imageUrl,
           userId: blog.userId,
           createdAt: new Date(blog.createdAt || Date.now()).toLocaleDateString('vi-VN'),
+          user: blog.user
         }));
         setBlogsData(formattedData);
+        console.log('Formatted data:', formattedData); // Debug log
       } else {
         const errorText = await response.text();
-        console.error('Fetch error response:', errorText);
+        console.error('API Error:', errorText); // Debug log
         message.error(`Không thể tải danh sách blog. Status: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error fetching blogs:', error);
+      console.error('Fetch error:', error); // Debug log
       message.error('Lỗi kết nối khi tải blog'); 
     } finally {
       setTableLoading(false);
     }
   };
 
+  // Thêm useEffect để gọi API ngay khi component mount
   useEffect(() => {
-    if (selectedKey === '3' || selectedKey === '3-1' || selectedKey === '3-2' || selectedKey === '3-3') {
+    console.log('Component mounted, selectedKey:', selectedKey); // Debug log
+    fetchBlogs(); // Gọi ngay khi component mount
+  }, []); // Empty dependency array
+
+  useEffect(() => {
+    console.log('selectedKey changed:', selectedKey); // Debug log
+    if (selectedKey === '3') {
       fetchBlogs();
     }
   }, [selectedKey]);
-
-  const handleImageUpload: UploadProps['customRequest'] = async (options) => {
-    const { file, onSuccess, onError } = options;
-    
-    try {
-      const formData = new FormData();
-      formData.append('file', file as File);
-
-      console.log('Uploading image to:', `${apiBaseUrl}/api/Upload/image`);
-
-      // For file upload, we need to handle it differently
-      const response = await fetch(`${apiBaseUrl}/api/Upload/image`, {
-        method: 'POST',
-        credentials: 'include', // Still include credentials for cookies
-        // Don't set Content-Type for FormData, let browser set it
-        body: formData,
-      });
-
-      console.log('Upload response status:', response.status);
-
-      if (response.status === 302) {
-        console.warn('Upload received 302 redirect');
-        message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
-        onError?.(new Error('Authentication required'));
-        return;
-      }
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Upload result:', result);
-        setImageUrl(result.imageUrl || result.url || '');
-        onSuccess?.(result);
-        message.success('Upload ảnh thành công!');
-      } else {
-        const errorText = await response.text();
-        console.error('Upload error response:', errorText);
-        throw new Error(`Upload failed: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Upload error:', error);
-      onError?.(error as Error);
-      message.error('Upload ảnh thất bại!');
-    }
-  };
-
-  const handleFileChange: UploadProps['onChange'] = (info) => {
-    setFileList(info.fileList);
-  };
 
   const handleFinish = async (values: BlogFormData) => {
     setLoading(true);
@@ -223,7 +154,7 @@ const Dashboard: React.FC = () => {
         userId: userId,
         title: values.title,
         content: values.content,
-        imageUrl: imageUrl || values.imageUrl || ''
+        imageUrl: values.imageUrl || ''
       };
 
       console.log('Creating blog with data:', blogData);
@@ -233,12 +164,7 @@ const Dashboard: React.FC = () => {
         body: JSON.stringify(blogData),
       });
 
-      // Handle 302 redirect specifically
       if (response.status === 302) {
-        console.warn('Received 302 redirect when creating blog');
-        const redirectUrl = response.headers.get('Location');
-        console.log('Redirect URL:', redirectUrl);
-        
         message.error('Phiên đăng nhập đã hết hạn hoặc không có quyền truy cập. Vui lòng đăng nhập lại!');
         return;
       }
@@ -249,13 +175,9 @@ const Dashboard: React.FC = () => {
         
         message.success('Bài viết đã được tạo thành công!');
         form.resetFields();
-        setFileList([]);
-        setImageUrl('');
         
-        // Refresh blog list if we're on the management page
-        if (selectedKey === '3' || selectedKey === '3-1' || selectedKey === '3-2' || selectedKey === '3-3') {
-          fetchBlogs();
-        }
+        // Refresh blogs list
+        fetchBlogs();
       } else {
         const errorData = await response.text();
         console.error('API Error:', errorData);
@@ -311,28 +233,6 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  // Test authentication function - you can call this to debug
-  const testAuth = async () => {
-    console.log('=== TESTING AUTHENTICATION ===');
-    debugCookies();
-    
-    try {
-      const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs`, {
-        method: 'GET',
-      });
-      
-      console.log('Auth test result:', response.status);
-      if (response.ok) {
-        message.success('Authentication working!');
-      } else {
-        message.error(`Authentication failed: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Auth test error:', error);
-      message.error('Authentication test failed!');
-    }
-  };
-
   const columns: ColumnsType<BlogData> = [
     {
       title: 'ID',
@@ -377,6 +277,14 @@ const Dashboard: React.FC = () => {
       ),
     },
     {
+      title: 'Tác giả',
+      dataIndex: 'user',
+      key: 'author',
+      render: (user: any) => (
+        user ? user.username : 'Unknown'
+      ),
+    },
+    {
       title: 'Ngày tạo',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -403,6 +311,10 @@ const Dashboard: React.FC = () => {
                       />
                     )}
                     <p>{record.content}</p>
+                    <div style={{ marginTop: 16, fontSize: '12px', color: '#666' }}>
+                      <p>Tác giả: {record.user?.username || 'Unknown'}</p>
+                      <p>Ngày tạo: {record.createdAt}</p>
+                    </div>
                   </div>
                 ),
                 width: 600,
@@ -438,11 +350,6 @@ const Dashboard: React.FC = () => {
             <Card 
               title="Viết bài viết mới" 
               className="article-form-card"
-              extra={
-                <Button onClick={testAuth} size="small">
-                  Test Auth
-                </Button>
-              }
             >
               <Form
                 form={form}
@@ -470,43 +377,13 @@ const Dashboard: React.FC = () => {
                         showCount
                       />
                     </Form.Item>
-
-                    <Form.Item label="Upload hình ảnh">
-                      <Upload
-                        listType="picture-card"
-                        fileList={fileList}
-                        maxCount={1}
-                        customRequest={handleImageUpload}
-                        onChange={handleFileChange}
-                        beforeUpload={(file) => {
-                          const isImage = file.type?.startsWith('image/');
-                          if (!isImage) {
-                            message.error('Chỉ được upload file ảnh!');
-                          }
-                          const isLt5M = file.size / 1024 / 1024 < 5;
-                          if (!isLt5M) {
-                            message.error('Ảnh phải nhỏ hơn 5MB!');
-                          }
-                          return isImage && isLt5M;
-                        }}
-                      >
-                        {fileList.length >= 1 ? null : (
-                          <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                          </div>
-                        )}
-                      </Upload>
-                    </Form.Item>
                   </Col>
                   
                   <Col xs={24} lg={8}>
                     <Form.Item label="URL hình ảnh (tùy chọn)" name="imageUrl">
                       <Input 
-                        placeholder="Hoặc nhập URL hình ảnh..." 
+                        placeholder="Nhập URL hình ảnh..." 
                         size="large"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
                       />
                     </Form.Item>
 
@@ -515,7 +392,7 @@ const Dashboard: React.FC = () => {
                         <Button 
                           type="primary" 
                           htmlType="submit"
-                          icon={loading ? <LoadingOutlined /> : <UploadOutlined />}
+                          icon={loading ? <LoadingOutlined /> : <PlusOutlined />}
                           size="large"
                           block
                           loading={loading}
@@ -532,17 +409,17 @@ const Dashboard: React.FC = () => {
         );
 
       case '3':
-      case '3-1':
-      case '3-2':
-      case '3-3':
         return (
           <div className="article-management">
             <Card 
               title="Quản lý bài viết" 
               extra={
                 <Space>
-                  <Button onClick={testAuth} size="small">
-                    Test Auth
+                  <Button 
+                    icon={<BarChartOutlined />}
+                    onClick={() => fetchBlogs()}
+                  >
+                    Làm mới
                   </Button>
                   <Button 
                     type="primary" 
@@ -565,7 +442,7 @@ const Dashboard: React.FC = () => {
                   showTotal: (total, range) => 
                     `${range[0]}-${range[1]} của ${total} bài viết`
                 }}
-                scroll={{ x: 1000 }}
+                scroll={{ x: 1200 }}
               />
             </Card>
           </div>
@@ -579,9 +456,6 @@ const Dashboard: React.FC = () => {
                 <BarChartOutlined style={{ fontSize: '48px', color: '#d9d9d9' }} />
                 <h3>Chọn một mục từ menu để bắt đầu</h3>
                 <p>Bắt đầu bằng cách viết bài viết mới hoặc quản lý các bài viết hiện có</p>
-                <Button onClick={testAuth} style={{ marginTop: 16 }}>
-                  Test Authentication
-                </Button>
               </div>
             </Card>
           </div>

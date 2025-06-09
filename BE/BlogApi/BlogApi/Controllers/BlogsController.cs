@@ -11,7 +11,6 @@ namespace BlogApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]  // Yêu cầu xác thực người dùng trước khi truy cập API CRUD Blog
     public class BlogsController : ControllerBase
     {
         private readonly AppDbContext _context;
