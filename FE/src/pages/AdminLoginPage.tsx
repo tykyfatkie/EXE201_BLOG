@@ -79,23 +79,20 @@ const AdminLoginPage: React.FC = () => {
           console.log('Remember me disabled - removed from localStorage');
         }
 
-        // Check if cookies were set properly
         console.log('Document cookies after login:', document.cookie);
         
-        // Wait a bit for cookies to be properly set
+
         setTimeout(() => {
           console.log('Navigating to dashboard...');
-          // Use React Router navigate instead of window.location.href
+
           navigate('/dashboard', { replace: true });
           
-          // Alternative: if navigate doesn't work, use window.location.replace
-          // window.location.replace('/dashboard');
         }, 100);
 
       } else {
         console.log('Login failed with status:', response.status);
         
-        // Try to get error message from response
+
         try {
           const errorData = await response.text();
           console.log('Error response body:', errorData);
@@ -103,7 +100,7 @@ const AdminLoginPage: React.FC = () => {
           console.log('Could not parse error response:', parseError);
         }
         
-        // Handle different HTTP status codes
+
         if (response.status === 401) {
           setError('Tên đăng nhập hoặc mật khẩu không chính xác');
         } else if (response.status === 403) {
@@ -120,7 +117,7 @@ const AdminLoginPage: React.FC = () => {
       console.error('Error message:', err instanceof Error ? err.message : 'Unknown error');
       console.error('Full error:', err);
       
-      // Handle different types of errors
+
       if (err instanceof TypeError && err.message.includes('fetch')) {
         console.error('Network/Fetch error detected');
         setError('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.');
@@ -135,10 +132,10 @@ const AdminLoginPage: React.FC = () => {
 
   const handleGoHome = () => {
     console.log('Navigating to home page...');
-    navigate('/'); // Use navigate instead of window.location.href
+    navigate('/'); 
   };
 
-  // Load remembered username on component mount
+
   React.useEffect(() => {
     console.log('Component mounted, checking for remembered login...');
     
@@ -157,7 +154,7 @@ const AdminLoginPage: React.FC = () => {
     }
   }, [loginForm]);
 
-  // Debug environment variables and cookies
+
   React.useEffect(() => {
     console.log('=== ENVIRONMENT DEBUG ===');
     console.log('NODE_ENV:', process.env.NODE_ENV);

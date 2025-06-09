@@ -58,19 +58,74 @@ const Dashboard: React.FC = () => {
 
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
+  // Debug function to check cookies
+  const debugCookies = () => {
+    console.log('=== COOKIE DEBUG ===');
+    console.log('All cookies:', document.cookie);
+    console.log('Document domain:', document.domain);
+    console.log('Current URL:', window.location.href);
+    console.log('API Base URL:', apiBaseUrl);
+    
+    // Check specific auth cookies
+    const cookies = document.cookie.split(';');
+    cookies.forEach(cookie => {
+      const [name, value] = cookie.trim().split('=');
+      console.log(`Cookie: ${name} = ${value}`);
+    });
+  };
+
+  // Enhanced fetch with proper cookie handling
+  const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
+    debugCookies(); // Debug cookies before each request
+    
+    const defaultOptions: RequestInit = {
+      credentials: 'include', // This is CRITICAL for cookies
+      headers: {
+        'Content-Type': 'application/json',
+        // Add these headers to help with CORS
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        ...options.headers,
+      },
+      ...options,
+    };
+
+    console.log('=== REQUEST DEBUG ===');
+    console.log('URL:', url);
+    console.log('Method:', options.method || 'GET');
+    console.log('Headers:', defaultOptions.headers);
+    console.log('Credentials:', defaultOptions.credentials);
+
+    const response = await fetch(url, defaultOptions);
+    
+    console.log('=== RESPONSE DEBUG ===');
+    console.log('Status:', response.status);
+    console.log('StatusText:', response.statusText);
+    console.log('Response Headers:');
+    response.headers.forEach((value, key) => {
+      console.log(`  ${key}: ${value}`);
+    });
+
+    return response;
+  };
+
   const fetchBlogs = async () => {
     setTableLoading(true);
     try {
-      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
+      const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs`, {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
+
+      if (response.status === 302) {
+        console.warn('Received 302 redirect - authentication might be required');
+        message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+        return;
+      }
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Fetched blogs data:', data);
+        
         const formattedData = data.map((blog: any, index: number) => ({
           key: blog.id || index.toString(),
           id: blog.id,
@@ -82,11 +137,13 @@ const Dashboard: React.FC = () => {
         }));
         setBlogsData(formattedData);
       } else {
-        message.error('Không thể tải danh sách blog');
+        const errorText = await response.text();
+        console.error('Fetch error response:', errorText);
+        message.error(`Không thể tải danh sách blog. Status: ${response.status}`);
       }
     } catch (error) {
       console.error('Error fetching blogs:', error);
-      message.error('Lỗi kết nối khi tải blog');
+      message.error('Lỗi kết nối khi tải blog'); 
     } finally {
       setTableLoading(false);
     }
@@ -105,19 +162,35 @@ const Dashboard: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file as File);
 
+      console.log('Uploading image to:', `${apiBaseUrl}/api/Upload/image`);
+
+      // For file upload, we need to handle it differently
       const response = await fetch(`${apiBaseUrl}/api/Upload/image`, {
         method: 'POST',
-        credentials: 'include',
+        credentials: 'include', // Still include credentials for cookies
+        // Don't set Content-Type for FormData, let browser set it
         body: formData,
       });
 
+      console.log('Upload response status:', response.status);
+
+      if (response.status === 302) {
+        console.warn('Upload received 302 redirect');
+        message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+        onError?.(new Error('Authentication required'));
+        return;
+      }
+
       if (response.ok) {
         const result = await response.json();
+        console.log('Upload result:', result);
         setImageUrl(result.imageUrl || result.url || '');
         onSuccess?.(result);
         message.success('Upload ảnh thành công!');
       } else {
-        throw new Error('Upload failed');
+        const errorText = await response.text();
+        console.error('Upload error response:', errorText);
+        throw new Error(`Upload failed: ${response.status}`);
       }
     } catch (error) {
       console.error('Upload error:', error);
@@ -138,8 +211,12 @@ const Dashboard: React.FC = () => {
       let userId = '1'; 
       
       if (userInfo) {
-        const user = JSON.parse(userInfo);
-        userId = user.id || user.userId || '1';
+        try {
+          const user = JSON.parse(userInfo);
+          userId = user.id || user.userId || '1';
+        } catch (parseError) {
+          console.error('Error parsing user info:', parseError);
+        }
       }
 
       const blogData = {
@@ -149,31 +226,43 @@ const Dashboard: React.FC = () => {
         imageUrl: imageUrl || values.imageUrl || ''
       };
 
-      console.log('Sending blog data:', blogData);
+      console.log('Creating blog with data:', blogData);
 
-      const response = await fetch(`${apiBaseUrl}/api/Blogs`, {
+      const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs`, {
         method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(blogData),
       });
 
+      // Handle 302 redirect specifically
+      if (response.status === 302) {
+        console.warn('Received 302 redirect when creating blog');
+        const redirectUrl = response.headers.get('Location');
+        console.log('Redirect URL:', redirectUrl);
+        
+        message.error('Phiên đăng nhập đã hết hạn hoặc không có quyền truy cập. Vui lòng đăng nhập lại!');
+        return;
+      }
+
       if (response.ok) {
+        const responseData = await response.json();
+        console.log('Blog created successfully:', responseData);
+        
         message.success('Bài viết đã được tạo thành công!');
         form.resetFields();
         setFileList([]);
         setImageUrl('');
         
-
+        // Refresh blog list if we're on the management page
         if (selectedKey === '3' || selectedKey === '3-1' || selectedKey === '3-2' || selectedKey === '3-3') {
           fetchBlogs();
         }
       } else {
         const errorData = await response.text();
         console.error('API Error:', errorData);
-        message.error('Không thể tạo bài viết. Vui lòng thử lại!');
+        console.error('Response status:', response.status);
+        console.error('Response statusText:', response.statusText);
+        
+        message.error(`Không thể tạo bài viết. Lỗi: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error creating blog:', error);
@@ -193,16 +282,26 @@ const Dashboard: React.FC = () => {
       okType: 'danger',
       onOk: async () => {
         try {
-          const response = await fetch(`${apiBaseUrl}/api/Blogs/${blogId}`, {
+          console.log('Deleting blog:', blogId);
+          
+          const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs/${blogId}`, {
             method: 'DELETE',
-            credentials: 'include',
           });
+
+          console.log('Delete response status:', response.status);
+
+          if (response.status === 302) {
+            message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+            return;
+          }
 
           if (response.ok) {
             message.success('Xóa bài viết thành công!');
             fetchBlogs(); // Refresh the list
           } else {
-            message.error('Không thể xóa bài viết!');
+            const errorText = await response.text();
+            console.error('Delete error:', errorText);
+            message.error(`Không thể xóa bài viết! Status: ${response.status}`);
           }
         } catch (error) {
           console.error('Error deleting blog:', error);
@@ -210,6 +309,28 @@ const Dashboard: React.FC = () => {
         }
       },
     });
+  };
+
+  // Test authentication function - you can call this to debug
+  const testAuth = async () => {
+    console.log('=== TESTING AUTHENTICATION ===');
+    debugCookies();
+    
+    try {
+      const response = await fetchWithAuth(`${apiBaseUrl}/api/Blogs`, {
+        method: 'GET',
+      });
+      
+      console.log('Auth test result:', response.status);
+      if (response.ok) {
+        message.success('Authentication working!');
+      } else {
+        message.error(`Authentication failed: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Auth test error:', error);
+      message.error('Authentication test failed!');
+    }
   };
 
   const columns: ColumnsType<BlogData> = [
@@ -262,7 +383,7 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Hành động',
-      key: 'actions',
+      key: 'actions',  
       render: (_, record) => (
         <Space size="small">
           <Button 
@@ -314,7 +435,15 @@ const Dashboard: React.FC = () => {
       case '1':
         return (
           <div className="write-article">
-            <Card title="Viết bài viết mới" className="article-form-card">
+            <Card 
+              title="Viết bài viết mới" 
+              className="article-form-card"
+              extra={
+                <Button onClick={testAuth} size="small">
+                  Test Auth
+                </Button>
+              }
+            >
               <Form
                 form={form}
                 layout="vertical"
@@ -411,13 +540,18 @@ const Dashboard: React.FC = () => {
             <Card 
               title="Quản lý bài viết" 
               extra={
-                <Button 
-                  type="primary" 
-                  icon={<PlusOutlined />}
-                  onClick={() => setSelectedKey('1')}
-                >
-                  Thêm bài viết
-                </Button>
+                <Space>
+                  <Button onClick={testAuth} size="small">
+                    Test Auth
+                  </Button>
+                  <Button 
+                    type="primary" 
+                    icon={<PlusOutlined />}
+                    onClick={() => setSelectedKey('1')}
+                  >
+                    Thêm bài viết
+                  </Button>
+                </Space>
               }
             >
               <Table
@@ -445,6 +579,9 @@ const Dashboard: React.FC = () => {
                 <BarChartOutlined style={{ fontSize: '48px', color: '#d9d9d9' }} />
                 <h3>Chọn một mục từ menu để bắt đầu</h3>
                 <p>Bắt đầu bằng cách viết bài viết mới hoặc quản lý các bài viết hiện có</p>
+                <Button onClick={testAuth} style={{ marginTop: 16 }}>
+                  Test Authentication
+                </Button>
               </div>
             </Card>
           </div>

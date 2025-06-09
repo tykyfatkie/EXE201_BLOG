@@ -6,23 +6,20 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Cấu hình DbContext với chuỗi kết nối từ appsettings.json
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Cấu hình CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")  // Địa chỉ frontend của bạn
-               .AllowAnyMethod()                    // Cho phép tất cả các phương thức HTTP
-               .AllowAnyHeader()                    // Cho phép tất cả các header
-               .AllowCredentials();                 // Cho phép cookies (nếu bạn sử dụng cookie authentication)
+        builder.WithOrigins("http://localhost:3000")  
+               .AllowAnyMethod()                   
+               .AllowAnyHeader()                    
+               .AllowCredentials();                 
     });
 });
 
-// Cấu hình Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -32,7 +29,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// Cấu hình Swagger với hỗ trợ Cookie Authentication
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -42,7 +38,6 @@ builder.Services.AddSwaggerGen(options =>
         Description = "API for managing blogs with Cookie Authentication"
     });
 
-    // Cấu hình cho Authorization với Cookie
     options.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
     {
         Description = "Enter your credentials to login",
@@ -67,12 +62,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Thêm các dịch vụ khác
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Cấu hình pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -83,9 +76,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigins");  // Đảm bảo CORS được cấu hình trước Authentication
-app.UseAuthentication();  // Thêm xác thực cookie
-app.UseAuthorization();   // Cấp quyền truy cập cho API
+app.UseCors("AllowSpecificOrigins");  
+app.UseAuthentication();  
+app.UseAuthorization();  
 
 app.MapControllers();
 
