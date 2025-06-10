@@ -38,20 +38,6 @@ const Sidebar: React.FC<SidebarProps> = ({
       key: '2',
       icon: <FileTextOutlined />,
       label: 'Quản lý bài viết',
-      children: [
-        {
-          key: '2-1',
-          label: 'Tất cả bài viết',
-        },
-        {
-          key: '2-2',
-          label: 'Bài viết đã xuất bản',
-        },
-        {
-          key: '2-3',
-          label: 'Bài viết đã xóa',
-        },
-      ],
     },
   ];
 

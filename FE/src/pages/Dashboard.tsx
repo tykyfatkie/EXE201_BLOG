@@ -50,14 +50,13 @@ interface BlogFormData {
 
 const Dashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKey, setSelectedKey] = useState('3'); // Thay đổi từ '1' thành '3' để test
+  const [selectedKey, setSelectedKey] = useState('2'); 
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [blogsData, setBlogsData] = useState<BlogData[]>([]);
   const [tableLoading, setTableLoading] = useState(false);
 
-  // Thêm fallback cho apiBaseUrl
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
     const defaultOptions: RequestInit = {
@@ -75,17 +74,17 @@ const Dashboard: React.FC = () => {
   };
 
   const fetchBlogs = async () => {
-    console.log('Fetching blogs...'); // Debug log
+    console.log('Fetching blogs...'); 
     setTableLoading(true);
     try {
       const fullUrl = `${apiBaseUrl}/api/Blogs`;
-      console.log('API URL:', fullUrl); // Debug log
+      console.log('API URL:', fullUrl); 
       
       const response = await fetchWithAuth(fullUrl, {
         method: 'GET',
       });
 
-      console.log('Response status:', response.status); // Debug log
+      console.log('Response status:', response.status); 
 
       if (response.status === 302) {
         message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
@@ -107,28 +106,27 @@ const Dashboard: React.FC = () => {
           user: blog.user
         }));
         setBlogsData(formattedData);
-        console.log('Formatted data:', formattedData); // Debug log
+        console.log('Formatted data:', formattedData); 
       } else {
         const errorText = await response.text();
-        console.error('API Error:', errorText); // Debug log
+        console.error('API Error:', errorText); 
         message.error(`Không thể tải danh sách blog. Status: ${response.status}`);
       }
     } catch (error) {
-      console.error('Fetch error:', error); // Debug log
+      console.error('Fetch error:', error); 
       message.error('Lỗi kết nối khi tải blog'); 
     } finally {
       setTableLoading(false);
     }
   };
 
-  // Thêm useEffect để gọi API ngay khi component mount
   useEffect(() => {
-    console.log('Component mounted, selectedKey:', selectedKey); // Debug log
-    fetchBlogs(); // Gọi ngay khi component mount
-  }, []); // Empty dependency array
+    console.log('Component mounted, selectedKey:', selectedKey); 
+    fetchBlogs(); 
+  }, []); 
 
   useEffect(() => {
-    console.log('selectedKey changed:', selectedKey); // Debug log
+    console.log('selectedKey changed:', selectedKey); 
     if (selectedKey === '3') {
       fetchBlogs();
     }
@@ -176,7 +174,6 @@ const Dashboard: React.FC = () => {
         message.success('Bài viết đã được tạo thành công!');
         form.resetFields();
         
-        // Refresh blogs list
         fetchBlogs();
       } else {
         const errorData = await response.text();
@@ -408,7 +405,7 @@ const Dashboard: React.FC = () => {
           </div>
         );
 
-      case '3':
+      case '2':
         return (
           <div className="article-management">
             <Card 
