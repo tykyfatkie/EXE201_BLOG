@@ -72,7 +72,7 @@ const BlogDetail: React.FC = () => {
     } catch (error) {
       console.error('Error fetching blog detail:', error);
       message.error('Không thể tải chi tiết blog');
-      navigate('/blogs');
+      navigate('/');
     } finally {
       setLoading(false);
     }
