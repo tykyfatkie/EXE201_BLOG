@@ -3,6 +3,7 @@ import HomePage from '../pages/HomePage';
 import CreateNewsPage from '../pages/CreateNewsPage';
 import AdminLoginPage from '../pages/AdminLoginPage';
 import Dashboard from '../pages/Dashboard';
+import BlogDetail from '../pages/BlogDetail';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreateNewsPage />} />  
         <Route path="/login" element={<AdminLoginPage />} />     
-        <Route path="/dashboard" element={<Dashboard />} />   
+        <Route path="/CaiUrlDashboardNayChacChanKhongAiBietDauHaHaHa" element={<Dashboard />} />   
+        <Route path="/blog/:id" element={<BlogDetail />} /> 
       </Routes>
     </BrowserRouter>
   );

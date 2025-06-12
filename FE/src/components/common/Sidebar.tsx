@@ -2,15 +2,12 @@ import React from 'react';
 import { 
   FileTextOutlined,
   EditOutlined,
-  TeamOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  BarChartOutlined
-} from '@ant-design/icons';
+  LogoutOutlined} from '@ant-design/icons';
 import { Layout, Menu, Avatar, Button, Modal } from 'antd';
 import type { MenuProps } from 'antd';
 import '../../css/Sidebar.css';
 import Logo from '../../images/logo.png';
+import AvatarImage from '../../images/avatar.jpg';
 
 const { Sider } = Layout;
 
@@ -53,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         if ('authToken' in window) delete (window as any).authToken;
         if ('accessToken' in window) delete (window as any).accessToken;
         if ('refreshToken' in window) delete (window as any).refreshToken;
-        window.location.href = '/login';
+        window.location.href = '/';
 
       }
     });
@@ -101,11 +98,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         {!collapsed && (
           <div className="sidebar-footer">
             <div className="user-info">
-              <Avatar size={32} className="user-avatar">
-                Phat
-              </Avatar>
+              <Avatar 
+                size={32} 
+                src={AvatarImage}
+                alt="Admin Avatar"
+                className="user-avatar"
+              />
               <div className="user-details">
-                <div className="user-name">Admin Phat</div>
+                <div className="user-name">Admin</div>
                 <div className="user-role">Quản trị viên</div>
               </div>
             </div>

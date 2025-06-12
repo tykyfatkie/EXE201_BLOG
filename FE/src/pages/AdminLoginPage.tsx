@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Card, Typography, Alert, Checkbox, Space } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone, CheckOutlined, HomeOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom'; // Add this import
+import { useNavigate } from 'react-router-dom';
 import '../css/AdminLoginPage.css';
 
 const { Title, Text } = Typography;
@@ -16,7 +16,7 @@ const AdminLoginPage: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate(); 
 
   const handleLogin = async (values: LoginFormData) => {
     console.log('=== LOGIN ATTEMPT STARTED ===');
@@ -85,7 +85,7 @@ const AdminLoginPage: React.FC = () => {
         setTimeout(() => {
           console.log('Navigating to dashboard...');
 
-          navigate('/dashboard', { replace: true });
+          navigate('/CaiUrlDashboardNayChacChanKhongAiBietDauHaHaHa', { replace: true });
           
         }, 100);
 

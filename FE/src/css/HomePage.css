@@ -1,5 +1,3 @@
-/* HomePage.css */
-
 .homepage-container {
   width: 100%;
 }
@@ -24,9 +22,10 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.1) 100%
+    rgba(0, 150, 136, 0.7) 0%,
+    rgba(0, 188, 212, 0.6) 30%,
+    rgba(255, 193, 7, 0.4) 70%,
+    rgba(255, 235, 59, 0.3) 100%
   );
   display: flex;
   align-items: center;
@@ -50,7 +49,7 @@
   font-weight: 700 !important;
   line-height: 1.2 !important;
   margin-bottom: 2rem !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .hero-buttons {
@@ -58,42 +57,109 @@
 }
 
 .hero-btn {
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 600;
-  padding: 12px 32px;
+  padding: 14px 36px;
   height: auto;
   font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 
 .primary-btn {
-  background: #00b14f !important;
+  background: linear-gradient(135deg, #00bcd4 0%, #009688 100%) !important;
   border: none !important;
   color: white !important;
 }
 
 .primary-btn:hover {
-  background: #00a045 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 177, 79, 0.4) !important;
+  background: linear-gradient(135deg, #00acc1 0%, #00897b 100%) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 188, 212, 0.4) !important;
 }
 
 .secondary-btn {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 2px solid white !important;
+  background: linear-gradient(135deg, #ffc107 0%, #ffeb3b 100%) !important;
+  border: 2px solid #ffc107 !important;
   color: #333 !important;
 }
 
 .secondary-btn:hover {
-  background: white !important;
+  background: linear-gradient(135deg, #ffb300 0%, #fdd835 100%) !important;
+  border-color: #ffb300 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 193, 7, 0.4) !important;
+}
+
+/* News Section */
+.news-section {
+  background: linear-gradient(135deg, #f0fdff 0%, #fff9e6 100%);
+}
+
+/* Card Styling */
+.ant-card {
+  border: 1px solid rgba(0, 188, 212, 0.1) !important;
+  box-shadow: 0 6px 20px rgba(0, 150, 136, 0.08) !important;
+}
+
+.ant-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 12px 32px rgba(0, 188, 212, 0.15) !important;
+  border-color: rgba(0, 188, 212, 0.2) !important;
+}
+
+/* News Card Gradient Fallback */
+.news-image-fallback {
+  background: linear-gradient(135deg, #00bcd4 0%, #009688 50%, #ffc107 100%) !important;
+}
+
+/* Section Titles */
+.news-section h2 {
+  background: linear-gradient(135deg, #009688 0%, #00bcd4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+/* Date and Meta Info */
+.news-date {
+  color: #00bcd4 !important;
+}
+
+.news-author {
+  color: #009688 !important;
+}
+
+/* Read More Button */
+.read-more-btn {
+  color: #00bcd4 !important;
+  font-weight: 600;
+}
+
+.read-more-btn:hover {
+  color: #009688 !important;
+}
+
+/* View More News Button */
+.view-more-news-btn {
+  background: linear-gradient(135deg, #00bcd4 0%, #009688 100%) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 12px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.view-more-news-btn:hover {
+  background: linear-gradient(135deg, #00acc1 0%, #00897b 100%) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.3) !important;
 }
 
 /* Content Section */
 .content-section {
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #f0fdff 0%, #fff9e6 100%);
   min-height: 400px;
 }
 
@@ -106,26 +172,104 @@
 .service-card {
   background: white;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 150, 136, 0.08);
   transition: all 0.3s ease;
   height: 100%;
+  border: 1px solid rgba(0, 188, 212, 0.1);
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 188, 212, 0.15);
+  border-color: rgba(0, 188, 212, 0.2);
 }
 
 .service-card h3 {
-  color: #00b14f;
+  background: linear-gradient(135deg, #009688 0%, #00bcd4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .service-card .ant-typography {
-  color: #666;
+  color: #555;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+/* Loading Spinner Colors */
+.ant-spin .ant-spin-dot-item {
+  background-color: #00bcd4 !important;
+}
+
+/* Accent Elements */
+.accent-teal {
+  color: #009688;
+}
+
+.accent-cyan {
+  color: #00bcd4;
+}
+
+.accent-yellow {
+  color: #ffc107;
+}
+
+.bg-accent-teal {
+  background-color: #009688;
+}
+
+.bg-accent-cyan {
+  background-color: #00bcd4;
+}
+
+.bg-accent-yellow {
+  background-color: #ffc107;
+}
+
+/* Gradient Text Utility */
+.gradient-text {
+  background: linear-gradient(135deg, #009688 0%, #00bcd4 50%, #ffc107 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Button Variants */
+.btn-teal {
+  background: #009688 !important;
+  border-color: #009688 !important;
+  color: white !important;
+}
+
+.btn-teal:hover {
+  background: #00695c !important;
+  border-color: #00695c !important;
+}
+
+.btn-cyan {
+  background: #00bcd4 !important;
+  border-color: #00bcd4 !important;
+  color: white !important;
+}
+
+.btn-cyan:hover {
+  background: #00acc1 !important;
+  border-color: #00acc1 !important;
+}
+
+.btn-yellow {
+  background: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #333 !important;
+}
+
+.btn-yellow:hover {
+  background: #ffb300 !important;
+  border-color: #ffb300 !important;
 }
 
 /* Responsive Design */
@@ -160,4 +304,35 @@
   .hero-section {
     height: 450px;
   }
+}
+
+/* Animation for Cards */
+@keyframes cardHover {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 6px 20px rgba(0, 150, 136, 0.08);
+  }
+  100% {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 188, 212, 0.15);
+  }
+}
+
+/* Smooth Gradient Animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background: linear-gradient(-45deg, #009688, #00bcd4, #ffc107, #ffeb3b);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
 }

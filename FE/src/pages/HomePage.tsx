@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Button, Typography, Row, Col, Card, Spin, message } from 'antd';
 import { CalendarOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import '../css/HomePage.css'
@@ -27,11 +28,12 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = () => {
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/Blogs');
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/Blogs`);
       
       if (!response.ok) {
         throw new Error('Không thể tải tin tức');
@@ -40,7 +42,6 @@ const HomePage: React.FC<HomePageProps> = () => {
       const data = await response.json();
       setNewsData(data);
     } catch (error) {
-      console.error('Lỗi khi tải tin tức:', error);
       message.error('Không thể tải tin tức. Vui lòng thử lại sau.');
     } finally {
       setLoading(false);
@@ -63,6 +64,79 @@ const HomePage: React.FC<HomePageProps> = () => {
   const truncateContent = (content: string, limit: number = 100) => {
     if (content.length <= limit) return content;
     return content.substring(0, limit) + '...';
+  };
+
+  const handleReadMore = (newsId: number) => {
+    navigate(`/blog/${newsId}`);
+  };
+
+  const handleViewAllNews = () => {
+    navigate('/blogs'); 
+  };
+
+  const NewsImage: React.FC<{ imageUrl: string; title: string }> = ({ imageUrl, title }) => {
+    const [imageError, setImageError] = useState(false);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    const handleImageLoad = () => {
+      setImageLoading(false);
+    };
+
+    const handleImageError = () => {
+      setImageError(true);
+      setImageLoading(false);
+    };
+
+    if (!imageUrl || imageError) {
+      return (
+        <div style={{ 
+          height: '200px', 
+          background: `linear-gradient(135deg, #00bcd4 0%, #009688 50%, #ffc107 100%)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          textShadow: '1px 1px 3px rgba(0,0,0,0.3)'
+        }}>
+          Tin tức
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ height: '200px', position: 'relative', overflow: 'hidden' }}>
+        {imageLoading && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, #f0fdff 0%, #fff9e6 100%)'
+          }}>
+            <Spin style={{ color: '#00bcd4' }} />
+          </div>
+        )}
+        <img
+          src={imageUrl}
+          alt={title}
+          crossOrigin="anonymous"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: imageLoading ? 'none' : 'block'
+          }}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      </div>
+    );
   };
 
   return (
@@ -109,10 +183,14 @@ const HomePage: React.FC<HomePageProps> = () => {
           </section>
 
           {/* News Center Section */}
-          <section className="news-section" style={{ padding: '80px 20px', backgroundColor: '#f8f9fa' }}>
+          <section className="news-section" style={{ padding: '80px 20px' }}>
             <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
               <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                <Title level={2} style={{ color: '#2c2c2c', marginBottom: '16px' }}>
+                <Title level={2} className="gradient-text" style={{ 
+                  marginBottom: '16px',
+                  fontSize: '2.5rem',
+                  fontWeight: '700'
+                }}>
                   Trung tâm tin tức
                 </Title>
                 <Text style={{ fontSize: '16px', color: '#666' }}>
@@ -140,44 +218,22 @@ const HomePage: React.FC<HomePageProps> = () => {
                       <Col xs={24} sm={12} lg={6} key={news.id}>
                         <Card
                           hoverable
-                          cover={
-                            news.imageUrl ? (
-                              <div style={{ 
-                                height: '200px', 
-                                backgroundImage: `url(${news.imageUrl})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                              }} />
-                            ) : (
-                              <div style={{ 
-                                height: '200px', 
-                                background: `linear-gradient(135deg, #00b14f, #00d16a)`,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontSize: '18px',
-                                fontWeight: 'bold'
-                              }}>
-                                Tin tức
-                              </div>
-                            )
-                          }
+                          cover={<NewsImage imageUrl={news.imageUrl} title={news.title} />}
                           style={{ 
                             borderRadius: '12px', 
                             overflow: 'hidden',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                             transition: 'all 0.3s ease'
                           }}
                           bodyStyle={{ padding: '20px' }}
+                          onClick={() => handleReadMore(news.id)}
                         >
                           <div style={{ marginBottom: '12px' }}>
-                            <Text style={{ 
-                              color: '#00b14f', 
+                            <Text className="news-date" style={{ 
                               fontSize: '14px',
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '6px'
+                              gap: '6px',
+                              fontWeight: '500'
                             }}>
                               <CalendarOutlined />
                               {formatDate(news.createdAt)}
@@ -189,7 +245,8 @@ const HomePage: React.FC<HomePageProps> = () => {
                             lineHeight: '1.4',
                             marginBottom: '12px',
                             color: '#2c2c2c',
-                            minHeight: '64px'
+                            minHeight: '64px',
+                            fontWeight: '600'
                           }}>
                             {news.title}
                           </Title>
@@ -205,20 +262,27 @@ const HomePage: React.FC<HomePageProps> = () => {
                           </Text>
 
                           <div style={{ marginBottom: '16px' }}>
-                            <Text style={{ fontSize: '12px', color: '#999' }}>
+                            <Text className="news-author" style={{ 
+                              fontSize: '12px', 
+                              fontWeight: '500'
+                            }}>
                               Bởi: {news.user.username}
                             </Text>
                           </div>
                           
                           <Button 
                             type="link" 
+                            className="read-more-btn"
                             style={{ 
                               padding: 0, 
-                              color: '#00b14f',
                               fontWeight: '500',
                               display: 'flex',
                               alignItems: 'center',
                               gap: '6px'
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleReadMore(news.id);
                             }}
                           >
                             Xem thêm
@@ -232,17 +296,13 @@ const HomePage: React.FC<HomePageProps> = () => {
                   <div style={{ textAlign: 'center', marginTop: '50px' }}>
                     <Button 
                       size="large"
+                      className="view-more-news-btn"
                       style={{
-                        borderColor: '#00b14f',
-                        color: '#00b14f',
-                        padding: '8px 40px',
+                        padding: '12px 40px',
                         height: 'auto',
-                        borderRadius: '8px',
-                        fontWeight: '500'
+                        fontSize: '16px'
                       }}
-                      onClick={() => {
-
-                      }}
+                      onClick={handleViewAllNews}
                     >
                       Xem thêm các tin tức khác
                     </Button>

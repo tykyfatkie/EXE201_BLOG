@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { 
   Layout, 
   Button, 
-  Drawer,
-  Typography
-} from 'antd';
+  Drawer} from 'antd';
 import { 
   MenuOutlined, 
   UserOutlined 
@@ -13,7 +11,6 @@ import '../../css/Header.css';
 import { Link } from 'react-router-dom';
 
 const { Header: AntHeader } = Layout;
-const { Text } = Typography;
 
 interface HeaderProps {
   // Props có thể được thêm vào sau nếu cần
@@ -36,7 +33,16 @@ const Header: React.FC<HeaderProps> = () => {
         {/* Logo */}
         <div className="logo-section">
           <div className="grab-logo">
-            <Text className="logo-text">CDC</Text>
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className="logo-image"
+              style={{
+                height: '40px',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
           </div>
         </div>
 
