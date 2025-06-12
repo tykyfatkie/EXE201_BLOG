@@ -47,6 +47,32 @@
   },
   {
     "ContainingType": "BlogApi.Controllers.BlogsController",
+    "Method": "GetBlogById",
+    "RelativePath": "api/Blogs/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BlogApi.DTOs.BlogDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BlogApi.Controllers.BlogsController",
     "Method": "UpdateBlog",
     "RelativePath": "api/Blogs/{id}",
     "HttpMethod": "PUT",

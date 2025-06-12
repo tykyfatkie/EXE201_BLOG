@@ -74,6 +74,38 @@ namespace BlogApi.Controllers
             return Ok(blogsDto);
         }
 
+        // GET: api/Blogs/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BlogDto>> GetBlogById(int id)
+        {
+            var blog = await _context.Blogs
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            var blogDto = new BlogDto
+            {
+                Id = blog.Id,
+                Title = blog.Title,
+                Content = blog.Content,
+                ImageUrl = blog.ImageUrl,
+                CreatedAt = blog.CreatedAt,
+                User = new UserDto
+                {
+                    Id = blog.User.Id,
+                    Username = blog.User.Username,
+                    CreatedAt = blog.User.CreatedAt
+                }
+            };
+
+            return Ok(blogDto);
+        }
+
+
         // PUT: api/Blogs/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBlog(int id, CreateBlogDto createBlogDto)
