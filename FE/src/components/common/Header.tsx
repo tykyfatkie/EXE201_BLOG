@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import '../../css/Header.css';
 import { Link } from 'react-router-dom';
+import Logo from '../../images/logo.png';
 
 const { Header: AntHeader } = Layout;
 
@@ -34,11 +35,11 @@ const Header: React.FC<HeaderProps> = () => {
         <div className="logo-section">
           <div className="grab-logo">
             <img 
-              src="/logo.png" 
+              src={Logo}
               alt="Logo" 
               className="logo-image"
               style={{
-                height: '40px',
+                height: '80px',
                 width: 'auto',
                 objectFit: 'contain'
               }}

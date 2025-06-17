@@ -1,16 +1,16 @@
-/* Header.css */
+/* Header.css - MOME Brand Colors */
 
 .grab-header {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 255, 0.95) 100%) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.95) 100%) !important;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 188, 212, 0.08);
+  box-shadow: 0 4px 20px rgba(255, 87, 34, 0.08);
   padding: 0 !important;
   height: 64px;
   line-height: 64px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(0, 188, 212, 0.1);
+  border-bottom: 1px solid rgba(255, 87, 34, 0.1);
 }
 
 .header-container {
@@ -37,7 +37,7 @@
 .logo-text {
   font-size: 2rem !important;
   font-weight: 700 !important;
-  background: linear-gradient(135deg, #009688 0%, #00bcd4 100%) !important;
+  background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%) !important;
   background-clip: text !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -74,13 +74,13 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(135deg, #00bcd4 0%, #009688 100%);
+  background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
 
 .main-menu .ant-menu-item:hover {
-  color: #00bcd4 !important;
+  color: #FF9800 !important;
 }
 
 .main-menu .ant-menu-item:hover::after {
@@ -88,8 +88,8 @@
 }
 
 .main-menu .ant-menu-item-selected {
-  color: #009688 !important;
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
+  color: #FF5722 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
 }
 
 .main-menu .ant-menu-item-selected::after {
@@ -105,11 +105,11 @@
 }
 
 .main-menu .ant-menu-submenu-title:hover {
-  color: #00bcd4 !important;
+  color: #FF9800 !important;
 }
 
 .main-menu .ant-menu-submenu-open .ant-menu-submenu-title {
-  color: #009688 !important;
+  color: #FF5722 !important;
 }
 
 /* Header Actions */
@@ -120,7 +120,7 @@
 }
 
 .language-dropdown .ant-btn {
-  border: 1px solid rgba(0, 188, 212, 0.2) !important;
+  border: 1px solid rgba(255, 152, 0, 0.2) !important;
   box-shadow: none !important;
   color: #666 !important;
   font-weight: 500;
@@ -130,9 +130,9 @@
 }
 
 .language-dropdown .ant-btn:hover {
-  color: #009688 !important;
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
-  border-color: rgba(0, 188, 212, 0.4) !important;
+  color: #FF5722 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
+  border-color: rgba(255, 152, 0, 0.4) !important;
   transform: translateY(-1px);
 }
 
@@ -143,7 +143,7 @@
 .help-btn {
   color: #666 !important;
   font-weight: 500;
-  border: 1px solid rgba(0, 188, 212, 0.2) !important;
+  border: 1px solid rgba(255, 152, 0, 0.2) !important;
   box-shadow: none !important;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.8);
@@ -151,55 +151,55 @@
 }
 
 .help-btn:hover {
-  color: #009688 !important;
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
-  border-color: rgba(0, 188, 212, 0.4) !important;
+  color: #FF5722 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
+  border-color: rgba(255, 152, 0, 0.4) !important;
   transform: translateY(-1px);
 }
 
 .signin-btn {
-  background: linear-gradient(135deg, #00bcd4 0%, #009688 100%) !important;
+  background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%) !important;
   border: none !important;
   color: white !important;
   font-weight: 600;
   border-radius: 8px;
   padding: 0 1.5rem;
-  box-shadow: 0 3px 12px rgba(0, 188, 212, 0.3);
+  box-shadow: 0 3px 12px rgba(255, 152, 0, 0.3);
   transition: all 0.3s ease;
 }
 
 .signin-btn:hover {
-  background: linear-gradient(135deg, #00acc1 0%, #00897b 100%) !important;
+  background: linear-gradient(135deg, #FB8C00 0%, #E64A19 100%) !important;
   color: white !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 188, 212, 0.4) !important;
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.4) !important;
 }
 
 .mobile-menu-btn {
   display: none !important;
   font-size: 1.2rem;
-  color: #009688 !important;
-  border: 1px solid rgba(0, 188, 212, 0.2);
+  color: #FF5722 !important;
+  border: 1px solid rgba(255, 152, 0, 0.2);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
 }
 
 .mobile-menu-btn:hover {
-  color: #00bcd4 !important;
-  background: rgba(0, 188, 212, 0.05) !important;
-  border-color: rgba(0, 188, 212, 0.4);
+  color: #FF9800 !important;
+  background: rgba(255, 152, 0, 0.05) !important;
+  border-color: rgba(255, 152, 0, 0.4);
 }
 
 /* Mobile Drawer */
 .mobile-drawer .ant-drawer-body {
   padding: 0 !important;
-  background: linear-gradient(135deg, #f0fdff 0%, #fff9e6 100%);
+  background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 100%);
 }
 
 .mobile-drawer .ant-drawer-header {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 255, 0.95) 100%);
-  border-bottom: 1px solid rgba(0, 188, 212, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.95) 100%);
+  border-bottom: 1px solid rgba(255, 87, 34, 0.1);
 }
 
 .mobile-menu {
@@ -218,13 +218,13 @@
 }
 
 .mobile-menu .ant-menu-item:hover {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.08) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
-  color: #009688 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.08) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
+  color: #FF5722 !important;
 }
 
 .mobile-menu .ant-menu-item-selected {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(0, 150, 136, 0.08) 100%) !important;
-  color: #009688 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 87, 34, 0.08) 100%) !important;
+  color: #FF5722 !important;
 }
 
 .mobile-actions {
@@ -238,33 +238,33 @@
 }
 
 .mobile-signin {
-  background: linear-gradient(135deg, #00bcd4 0%, #009688 100%) !important;
+  background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%) !important;
   border: none !important;
   height: 3rem;
   font-weight: 600;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
 }
 
 .mobile-signin:hover {
-  background: linear-gradient(135deg, #00acc1 0%, #00897b 100%) !important;
+  background: linear-gradient(135deg, #FB8C00 0%, #E64A19 100%) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 188, 212, 0.4);
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.4);
 }
 
 .mobile-help {
   height: 3rem;
   font-weight: 500;
-  border: 1px solid rgba(0, 188, 212, 0.3);
-  color: #009688;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  color: #FF5722;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.8);
 }
 
 .mobile-help:hover {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%);
-  border-color: rgba(0, 188, 212, 0.5);
-  color: #00897b;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%);
+  border-color: rgba(255, 152, 0, 0.5);
+  color: #E64A19;
 }
 
 /* Responsive Design */
@@ -297,8 +297,8 @@
 /* Dropdown Customization */
 .ant-dropdown-menu {
   border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(0, 188, 212, 0.15) !important;
-  border: 1px solid rgba(0, 188, 212, 0.1);
+  box-shadow: 0 8px 24px rgba(255, 152, 0, 0.15) !important;
+  border: 1px solid rgba(255, 152, 0, 0.1);
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
 }
@@ -308,20 +308,20 @@
 }
 
 .ant-dropdown-menu-item:hover {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
-  color: #009688 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
+  color: #FF5722 !important;
 }
 
 /* Animation for hover effects */
 @keyframes headerGlow {
   0% {
-    box-shadow: 0 4px 20px rgba(0, 188, 212, 0.08);
+    box-shadow: 0 4px 20px rgba(255, 87, 34, 0.08);
   }
   50% {
-    box-shadow: 0 6px 25px rgba(0, 188, 212, 0.12);
+    box-shadow: 0 6px 25px rgba(255, 87, 34, 0.12);
   }
   100% {
-    box-shadow: 0 4px 20px rgba(0, 188, 212, 0.08);
+    box-shadow: 0 4px 20px rgba(255, 87, 34, 0.08);
   }
 }
 
@@ -332,8 +332,8 @@
 /* Submenu styling */
 .ant-menu-submenu-popup {
   border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(0, 188, 212, 0.15) !important;
-  border: 1px solid rgba(0, 188, 212, 0.1);
+  box-shadow: 0 8px 24px rgba(255, 152, 0, 0.15) !important;
+  border: 1px solid rgba(255, 152, 0, 0.1);
 }
 
 .ant-menu-submenu-popup .ant-menu {
@@ -343,25 +343,25 @@
 }
 
 .ant-menu-submenu-popup .ant-menu-item:hover {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 150, 136, 0.05) 100%) !important;
-  color: #009688 !important;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%) !important;
+  color: #FF5722 !important;
 }
 
 /* Active states */
 .main-menu .ant-menu-submenu-active .ant-menu-submenu-title {
-  color: #009688 !important;
+  color: #FF5722 !important;
 }
 
 /* Search and other interactive elements */
 .header-search {
-  border: 1px solid rgba(0, 188, 212, 0.2);
+  border: 1px solid rgba(255, 152, 0, 0.2);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.8);
 }
 
 .header-search:focus {
-  border-color: #00bcd4;
-  box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+  border-color: #FF9800;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
 
 /* Notification and user menu styling */
@@ -373,7 +373,7 @@
 
 .header-notification:hover,
 .header-user-menu:hover {
-  color: #009688;
-  background: rgba(0, 188, 212, 0.05);
+  color: #FF5722;
+  background: rgba(255, 152, 0, 0.05);
   border-radius: 6px;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Button, Typography, Row, Col, Card, Spin, message } from 'antd';
+import { Layout, Button, Typography, Row, Col, Card, Spin } from 'antd';
 import { CalendarOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
@@ -36,13 +36,11 @@ const HomePage: React.FC<HomePageProps> = () => {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/Blogs`);
       
       if (!response.ok) {
-        throw new Error('Không thể tải tin tức');
       }
       
       const data = await response.json();
       setNewsData(data);
     } catch (error) {
-      message.error('Không thể tải tin tức. Vui lòng thử lại sau.');
     } finally {
       setLoading(false);
     }
@@ -91,7 +89,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       return (
         <div style={{ 
           height: '200px', 
-          background: `linear-gradient(135deg, #00bcd4 0%, #009688 50%, #ffc107 100%)`,
+          background: `linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FF4757 100%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -117,9 +115,9 @@ const HomePage: React.FC<HomePageProps> = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #f0fdff 0%, #fff9e6 100%)'
+            background: 'linear-gradient(135deg, #fff5f0 0%, #ffebe6 100%)'
           }}>
-            <Spin style={{ color: '#00bcd4' }} />
+            <Spin style={{ color: '#FF6B35' }} />
           </div>
         )}
         <img
@@ -153,7 +151,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                   <Col xs={24} md={16} lg={12}>
                     <div className="hero-text">
                       <Title level={1} className="hero-title">
-                        Chợ Dân Cư. Giúp cuộc sống tốt hơn mỗi ngày.
+                        MOME. Món MÔ cũng MÊ!
                       </Title>
                       
                       <div className="hero-buttons">
@@ -163,7 +161,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                           className="hero-btn primary-btn"
                           style={{ marginBottom: '16px', display: 'block', width: 'fit-content' }}
                         >
-                          Xem Thêm Về Chúng Tôi
+                          Khám Phá Ngay
                         </Button>
                         
                         <Button 
@@ -191,10 +189,10 @@ const HomePage: React.FC<HomePageProps> = () => {
                   fontSize: '2.5rem',
                   fontWeight: '700'
                 }}>
-                  Trung tâm tin tức
+                  Tin tức ẩm thực
                 </Title>
                 <Text style={{ fontSize: '16px', color: '#666' }}>
-                  Cập nhật những tin tức mới nhất từ Chợ Dân Cư
+                  Cập nhật những tin tức mới nhất về ẩm thực và món ngon từ MOME
                 </Text>
               </div>
 

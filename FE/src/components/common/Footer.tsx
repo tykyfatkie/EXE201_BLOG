@@ -31,10 +31,10 @@ const Footer: React.FC<FooterProps> = () => {
             <Col xs={24} sm={12} md={6}>
               <div className="footer-section">
                 <div className="footer-logo">
-                  <Text className="logo-text">Chợ Dân Cư</Text>
+                  <Text className="logo-text">MOME</Text>
                 </div>
                 <Text className="footer-description">
-                  Chợ Dân Cư là ứng dụng duy nhất và đầu tiên tại Vinhomes Grand Park Q9 cung cấp các dịch vụ 
+                  MOME là ứng dụng duy nhất và đầu tiên tại Vinhomes Grand Park Q9 cung cấp các dịch vụ 
                   đi lại, giao đồ ăn, thanh toán và nhiều hơn nữa.
                 </Text>
                 
