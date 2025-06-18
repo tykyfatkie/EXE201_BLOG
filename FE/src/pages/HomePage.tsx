@@ -89,7 +89,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       return (
         <div style={{ 
           height: '200px', 
-          background: `linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FF4757 100%)`,
+          background: `linear-gradient(135deg, #015551 0%, #5957ba 50%, #57b4ba 100%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

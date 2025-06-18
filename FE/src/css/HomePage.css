@@ -22,10 +22,10 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 107, 53, 0.8) 0%,
+    #57b4ba 0%,
     rgba(247, 147, 30, 0.7) 30%,
     rgba(255, 71, 87, 0.6) 70%,
-    rgba(255, 107, 53, 0.5) 100%
+    #015551 100%
   );
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%) !important;
+  background: linear-gradient(135deg, #015551 0%, #5957ba 50%, #57b4ba 100%) !important;
   border: none !important;
   color: white !important;
 }
@@ -110,12 +110,12 @@
 
 /* News Card Gradient Fallback */
 .news-image-fallback {
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FF4757 100%) !important;
+  background: linear-gradient(135deg, #015551 0%, #5957ba 50%, #57b4ba 100%) !important;
 }
 
 /* Section Titles */
 .news-section h2 {
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+  background: linear-gradient(135deg, #015551 0%, #57b4ba 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
